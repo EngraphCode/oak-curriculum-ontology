@@ -1,0 +1,204 @@
+@prefix natcurric: <https://w3id.org/uk/curriculum/nat-ontology/> .
+@prefix nat: <https://w3id.org/uk/curriculum/nat-data-2014/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ======================================================================
+# National Curriculum for England - Languages Programme Structure
+# ======================================================================
+
+# ----------------------------------------------------------------------
+# Ontology Declaration
+# ----------------------------------------------------------------------
+
+<https://w3id.org/uk/curriculum/nat-data-2014/languages-programme-structure>
+  rdf:type owl:Ontology ;
+
+  rdfs:label "National Curriculum for England - Languages Programme Structure"@en ;
+  dc:title "National Curriculum for England - Languages Programme Structure"@en ;
+  rdfs:comment """Languages programme structure that specifies schemes and progressions, and a
+  mapping to strands, sub-strands and content descriptors within the knowledge taxonomy."""@en ;
+
+  owl:versionInfo "0.1.0" ;
+  owl:versionIRI <https://w3id.org/uk/curriculum/nat-data-2014/languages-programme-structure/0.1.0> ;
+
+  dcterms:description """Languages programme structure that specifies schemes and progressions, and
+  a mapping to strands, sub-strands and content descriptors within the knowledge taxonomy."""@en ;
+  dc:creator "Department for Education" ;
+  dcterms:created "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+  dcterms:issued "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+
+  # OGL 3.0 License
+  dcterms:license <http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/> ;
+  dcterms:rights "Crown Copyright"@en ;
+
+  rdfs:seeAlso <https://w3id.org/uk/curriculum/nat-ontology> ;
+
+  vann:preferredNamespacePrefix "nat" ;
+  vann:preferredNamespaceUri "https://w3id.org/uk/curriculum/nat-data-2014/" ;
+
+  owl:imports <https://w3id.org/uk/curriculum/nat-ontology> ;
+  owl:imports <https://w3id.org/uk/curriculum/nat-data-2014/temporal-structure> ;
+  owl:imports <https://w3id.org/uk/curriculum/nat-data-2014/languages-knowledge-taxonomy> .
+
+# ----------------------------------------------------------------------
+# Subject Group
+# ----------------------------------------------------------------------
+
+nat:subjectgroup-languages
+  a natcurric:SubjectGroup ;
+  rdfs:label "Languages"@en ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+  natcurric:coversDiscipline nat:discipline-languages .
+
+# ----------------------------------------------------------------------
+# Subjects
+# ----------------------------------------------------------------------
+
+nat:subject-languages
+  a natcurric:Subject ;
+  rdfs:label "Languages"@en ;
+  natcurric:rationale """Learning a foreign language is a liberation from insularity and provides 
+  an opening to other cultures. A high-quality languages education should foster pupils’ curiosity 
+  and deepen their understanding of the world. The teaching should enable pupils to express their 
+  ideas and thoughts in another language and to understand and respond to its speakers, both in 
+  speech and in writing. It should also provide opportunities for them to communicate for practical 
+  purposes, learn new ways of thinking and read great literature in the original language. Language 
+  teaching should provide the foundation for learning further languages, equipping pupils to study 
+  and work in other countries."""@en ;
+  natcurric:hasAim
+    nat:aim-languages-understand-respond-spoken-written-language ,
+    nat:aim-languages-speak-increasing-confidence-fluency-spontaneity ,
+    nat:aim-languages-write-for-different-purposes-audiences ,
+    nat:aim-languages-appreciation-of-writing-in-language ; 
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+  natcurric:isSubjectOf nat:subjectgroup-languages ;
+  natcurric:coversStrand
+    nat:strand-foreign-language ,
+    nat:strand-modern-foreign-language .
+
+# ----------------------------------------------------------------------
+# Aims
+# ----------------------------------------------------------------------
+
+nat:aim-languages-understand-respond-spoken-written-language
+  a natcurric:Aim ;
+  rdfs:label """Understand and respond to spoken and written language from a variety of authentic 
+  sources."""@en ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime .
+
+nat:aim-languages-speak-increasing-confidence-fluency-spontaneity
+  a natcurric:Aim ;
+  rdfs:label """Speak with increasing confidence, fluency and spontaneity, finding ways of 
+  communicating what they want to say, including through discussion and asking questions, and 
+  continually improving the accuracy of their pronunciation and intonation."""@en ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime .
+
+nat:aim-languages-write-for-different-purposes-audiences
+  a natcurric:Aim ;
+  rdfs:label """Can write at varying length, for different purposes and audiences, using the 
+  variety of grammatical structures that they have learnt."""@en ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime .
+
+nat:aim-languages-appreciation-of-writing-in-language
+  a natcurric:Aim ;
+  rdfs:label """Discover and develop an appreciation of a range of writing in the language 
+  studied."""@en ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime .
+
+# ----------------------------------------------------------------------
+# Schemes
+# ----------------------------------------------------------------------
+
+nat:scheme-languages-key-stage-2
+  a natcurric:Scheme ;
+  rdfs:label "Languages Key Stage 2"@en ;
+  dcterms:description """Teaching may be of any modern or ancient foreign language and should focus 
+  on enabling pupils to make substantial progress in one language. The teaching should provide an 
+  appropriate balance of spoken and written language and should lay the foundations for further 
+  foreign language teaching at key stage 3. It should enable pupils to understand and communicate 
+  ideas, facts and feelings in speech and writing, focused on familiar and routine matters, using 
+  their knowledge of phonology, grammatical structures and vocabulary.
+  
+  The focus of study in modern languages will be on practical communication. If an ancient language 
+  is chosen the focus will be to provide a linguistic foundation for reading comprehension and an 
+  appreciation of classical civilisation. Pupils studying ancient languages may take part in simple 
+  oral exchanges, while discussion of what they read will be conducted in English. A linguistic 
+  foundation in ancient languages may support the study of modern languages at key stage 3."""@en ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+  natcurric:isSchemeOf nat:subject-languages ;
+  natcurric:coversKeyStage nat:key-stage-2 .
+
+nat:scheme-languages-key-stage-3
+  a natcurric:Scheme ;
+  rdfs:label "Languages Key Stage 3"@en ;
+  dcterms:description """Teaching may be of any modern foreign language and should build on the 
+  foundations of language learning laid at key stage 2, whether pupils continue with the same 
+  language or take up a new one. Teaching should focus on developing the breadth and depth of 
+  pupils’ competence in listening, speaking, reading and writing, based on a sound foundation of 
+  core grammar and vocabulary. It should enable pupils to understand and communicate personal and 
+  factual information that goes beyond their immediate needs and interests, developing and 
+  justifying points of view in speech and writing, with increased spontaneity, independence and 
+  accuracy. It should provide suitable preparation for further study."""@en ;  
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+  natcurric:isSchemeOf nat:subject-languages ;
+  natcurric:coversKeyStage nat:key-stage-3 .
+
+# ----------------------------------------------------------------------
+# Progressions
+# ----------------------------------------------------------------------
+
+nat:progression-languages-key-stage-2-foreign-language
+  a natcurric:Progression ;
+  rdfs:label "Languages Key Stage 2 Foreign language"@en ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+  natcurric:isProgressionOf nat:scheme-languages-key-stage-2 ;
+  natcurric:coversSubStrand nat:substrand-foreign-language ;
+  natcurric:includesContentDescriptor
+    nat:contentdescriptor-listen-spoken-language-joining-responding ,
+    nat:contentdescriptor-patterns-sounds-language-songs-rhymes ,
+    nat:contentdescriptor-engage-conversations-ask-answer-questions ,
+    nat:contentdescriptor-speak-sentences-familiar-vocabulary-phrases ,
+    nat:contentdescriptor-accurate-pronunciation-intonation-others-reading ,
+    nat:contentdescriptor-present-ideas-information-range-audiences ,
+    nat:contentdescriptor-read-words-phrases-simple-writing ,
+    nat:contentdescriptor-appreciate-stories-songs-poems-rhymes ,
+    nat:contentdescriptor-broaden-vocabulary-ability-new-words ,
+    nat:contentdescriptor-write-phrases-memory-adapt-create ,
+    nat:contentdescriptor-describe-people-places-things-actions ,
+    nat:contentdescriptor-basic-grammar-appropriate-language-studied .
+
+nat:progression-languages-key-stage-3-grammar-and-vocabulary
+  a natcurric:Progression ;
+  rdfs:label "Languages Key Stage 3 Grammar and vocabulary"@en ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+  natcurric:isProgressionOf nat:scheme-languages-key-stage-3 ;
+  natcurric:coversSubStrand nat:substrand-grammar-and-vocabulary ;
+  natcurric:includesContentDescriptor
+    nat:contentdescriptor-identify-tenses-other-structures-convey ,
+    nat:contentdescriptor-manipulate-variety-key-grammatical-structures ,
+    nat:contentdescriptor-ranging-deepening-vocabulary-goes-immediate ,
+    nat:contentdescriptor-accurate-grammar-spelling-punctuation .
+
+nat:progression-languages-key-stage-3-linguistic-competence
+  a natcurric:Progression ;
+  rdfs:label "Languages Key Stage 3 Linguistic competence"@en ;
+  dcterms:modified "2026-05-06T11:12:00Z"^^xsd:dateTime ;
+  natcurric:isProgressionOf nat:scheme-languages-key-stage-3 ;
+  natcurric:coversSubStrand nat:substrand-linguistic-competence ;
+  natcurric:includesContentDescriptor
+    nat:contentdescriptor-listen-variety-forms-spoken-language ,
+    nat:contentdescriptor-transcribe-words-short-sentences-hear ,
+    nat:contentdescriptor-initiate-conversations-coping-unfamiliar-language ,
+    nat:contentdescriptor-express-ideas-increasing-accuracy-writing ,
+    nat:contentdescriptor-speak-accurate-pronunciation-intonation ,
+    nat:contentdescriptor-read-comprehension-original-adapted-materials ,
+    nat:contentdescriptor-read-literary-texts-language-such ,
+    nat:contentdescriptor-write-prose-wide-range-grammar .

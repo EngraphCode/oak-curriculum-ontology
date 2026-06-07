@@ -1,0 +1,388 @@
+@prefix natcurric: <https://w3id.org/uk/curriculum/nat-ontology/> .
+@prefix nat: <https://w3id.org/uk/curriculum/nat-data-2014/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ======================================================================
+# National Curriculum for England - Music Knowledge Taxonomy
+# ======================================================================
+
+# ----------------------------------------------------------------------
+# Ontology Declaration
+# ----------------------------------------------------------------------
+
+<https://w3id.org/uk/curriculum/nat-data-2014/music-knowledge-taxonomy>
+  rdf:type owl:Ontology ;
+
+  rdfs:label "National Curriculum for England - Music Knowledge Taxonomy"@en ;
+  dc:title "National Curriculum for England - Music Knowledge Taxonomy"@en ;
+  rdfs:comment """Music knowledge taxonomy defining the hierarchical organisation of content from
+  strands through to sub-content descriptors."""@en ;
+
+  owl:versionInfo "0.1.0" ;
+  owl:versionIRI <https://w3id.org/uk/curriculum/nat-data-2014/music-knowledge-taxonomy/0.1.0> ;
+
+  dcterms:description """This file defines the Music knowledge taxonomy for the National Curriculum
+  in England, organising content through strands, sub-strands, content descriptors, and
+  sub-content descriptors."""@en ;
+  dc:creator "Department for Education" ;
+  dcterms:created "2026-05-05T15:05:11Z"^^xsd:dateTime ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime ;
+  dcterms:issued "2026-05-05T15:05:11Z"^^xsd:dateTime ;
+
+  # OGL 3.0 License
+  dcterms:license <http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/> ;
+  dcterms:rights "Crown Copyright"@en ;
+
+  rdfs:seeAlso <https://w3id.org/uk/curriculum/nat-ontology> ;
+
+  vann:preferredNamespacePrefix "nat" ;
+  vann:preferredNamespaceUri "https://w3id.org/uk/curriculum/nat-data-2014/" ;
+
+  owl:imports <https://w3id.org/uk/curriculum/nat-ontology> ;
+  owl:imports <https://w3id.org/uk/curriculum/nat-data-2014/music-programme-structure> .
+
+# ----------------------------------------------------------------------
+# Knowledge Taxonomy
+# ----------------------------------------------------------------------
+
+nat:knowledge-taxonomy
+  a skos:ConceptScheme ;
+  skos:prefLabel "National Curriculum for England Knowledge Taxonomy"@en ;
+  skos:hasTopConcept nat:discipline-music ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+# ----------------------------------------------------------------------
+# Disciplines
+# ----------------------------------------------------------------------
+
+nat:discipline-music
+  a skos:Concept, natcurric:Discipline ;
+  skos:prefLabel "Music"@en ;
+  skos:topConceptOf nat:knowledge-taxonomy ;
+  skos:narrower nat:strand-music ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+# ----------------------------------------------------------------------
+# Strands
+# ----------------------------------------------------------------------
+
+nat:strand-music
+  a skos:Concept, natcurric:Strand ;
+  skos:prefLabel "Music"@en ;
+  skos:definition "Description of strand..."@en ;
+  skos:broader nat:discipline-music ;
+  skos:narrower nat:substrand-music ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+# ----------------------------------------------------------------------
+# Sub-Strands
+# ----------------------------------------------------------------------
+
+nat:substrand-music
+  a skos:Concept, natcurric:SubStrand ;
+  skos:prefLabel "Music"@en ;
+  skos:broader nat:strand-music ;
+  skos:narrower
+    nat:contentdescriptor-voices-singing-songs-speaking-chants ,
+    nat:contentdescriptor-play-tuned-untuned-instruments ,
+    nat:contentdescriptor-listen-concentration-range-high-quality ,
+    nat:contentdescriptor-experiment-create-select-combine-sounds ,
+    nat:contentdescriptor-play-perform-solo-ensemble-contexts ,
+    nat:contentdescriptor-improvise-compose-music-range-purposes ,
+    nat:contentdescriptor-listen-attention-detail-recall-sounds ,
+    nat:contentdescriptor-staff-other-musical-notations ,
+    nat:contentdescriptor-appreciate-wide-range-high-quality ,
+    nat:contentdescriptor-history-music ,
+    nat:contentdescriptor-play-perform-range-solo-ensemble ,
+    nat:contentdescriptor-improvise-compose-extend-musical-ideas ,
+    nat:contentdescriptor-staff-other-relevant-notations-range ,
+    nat:contentdescriptor-identify-inter-related-dimensions-music ,
+    nat:contentdescriptor-listen-increasing-discrimination-wide-range ,
+    nat:contentdescriptor-deepening-music-perform-listen-history ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+# ----------------------------------------------------------------------
+# Content Descriptors
+# ----------------------------------------------------------------------
+
+nat:contentdescriptor-voices-singing-songs-speaking-chants
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Use their voices expressively and creatively by singing songs and speaking
+  chants and rhymes."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-voices-singing-songs-speaking-chants ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-play-tuned-untuned-instruments
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel "Play tuned and untuned instruments musically."@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-play-tuned-untuned-instruments ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-listen-concentration-range-high-quality
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Listen with concentration and understanding to a range of high-quality live and
+  recorded music."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-listen-concentration-range-high-quality ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-experiment-create-select-combine-sounds
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Experiment with, create, select and combine sounds using the inter-related
+  dimensions of music."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-experiment-create-select-combine-sounds ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-play-perform-solo-ensemble-contexts
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Play and perform in solo and ensemble contexts, using their voices and playing
+  musical instruments with increasing accuracy, fluency, control and expression."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-play-perform-solo-ensemble-contexts ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-improvise-compose-music-range-purposes
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Improvise and compose music for a range of purposes using the inter-related
+  dimensions of music."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-improvise-compose-music-range-purposes ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-listen-attention-detail-recall-sounds
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Listen with attention to detail and recall sounds with increasing aural
+  memory."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-listen-attention-detail-recall-sounds ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-staff-other-musical-notations
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel "Use and understand staff and other musical notations."@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-staff-other-musical-notations ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-appreciate-wide-range-high-quality
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Appreciate and understand a wide range of high-quality live and recorded music
+  drawn from different traditions and from great composers and musicians."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-appreciate-wide-range-high-quality ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-history-music
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel "Develop an understanding of the history of music."@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-history-music ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-play-perform-range-solo-ensemble
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Play and perform confidently in a range of solo and ensemble contexts using
+  their voice, playing instruments musically, fluently and with accuracy and expression."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-play-perform-range-solo-ensemble ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-improvise-compose-extend-musical-ideas
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Improvise and compose; and extend and develop musical ideas by drawing on a
+  range of musical structures, styles, genres and traditions."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-improvise-compose-extend-musical-ideas ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-staff-other-relevant-notations-range
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Use staff and other relevant notations appropriately and accurately in a range
+  of musical styles, genres and traditions."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-staff-other-relevant-notations-range ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-identify-inter-related-dimensions-music
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Identify and use the inter-related dimensions of music expressively and with
+  increasing sophistication, including use of tonalities, different types of scales and
+  other musical devices."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-identify-inter-related-dimensions-music ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-listen-increasing-discrimination-wide-range
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Listen with increasing discrimination to a wide range of music from great
+  composers and musicians."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-listen-increasing-discrimination-wide-range ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:contentdescriptor-deepening-music-perform-listen-history
+  a skos:Concept, natcurric:ContentDescriptor ;
+  skos:prefLabel """Develop a deepening understanding of the music that they perform and to which
+  they listen, and its history."""@en ;
+  skos:broader nat:substrand-music ;
+  skos:narrower nat:subcontentdescriptor-deepening-music-perform-listen-history ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+# ----------------------------------------------------------------------
+# Sub-Content Descriptors
+# ----------------------------------------------------------------------
+
+nat:subcontentdescriptor-voices-singing-songs-speaking-chants
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Use their voices expressively and creatively by singing songs and speaking
+  chants and rhymes."""@en ;
+  skos:broader nat:contentdescriptor-voices-singing-songs-speaking-chants ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-play-tuned-untuned-instruments
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel "Play tuned and untuned instruments musically."@en ;
+  skos:broader nat:contentdescriptor-play-tuned-untuned-instruments ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-listen-concentration-range-high-quality
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Listen with concentration and understanding to a range of high-quality live and
+  recorded music."""@en ;
+  skos:broader nat:contentdescriptor-listen-concentration-range-high-quality ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-experiment-create-select-combine-sounds
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Experiment with, create, select and combine sounds using the inter-related
+  dimensions of music."""@en ;
+  skos:broader nat:contentdescriptor-experiment-create-select-combine-sounds ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-play-perform-solo-ensemble-contexts
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Play and perform in solo and ensemble contexts, using their voices and playing
+  musical instruments with increasing accuracy, fluency, control and expression."""@en ;
+  skos:broader nat:contentdescriptor-play-perform-solo-ensemble-contexts ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-improvise-compose-music-range-purposes
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Improvise and compose music for a range of purposes using the inter-related
+  dimensions of music."""@en ;
+  skos:broader nat:contentdescriptor-improvise-compose-music-range-purposes ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-listen-attention-detail-recall-sounds
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Listen with attention to detail and recall sounds with increasing aural
+  memory."""@en ;
+  skos:broader nat:contentdescriptor-listen-attention-detail-recall-sounds ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-staff-other-musical-notations
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel "Use and understand staff and other musical notations."@en ;
+  skos:broader nat:contentdescriptor-staff-other-musical-notations ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-appreciate-wide-range-high-quality
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Appreciate and understand a wide range of high-quality live and recorded music
+  drawn from different traditions and from great composers and musicians."""@en ;
+  skos:broader nat:contentdescriptor-appreciate-wide-range-high-quality ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-history-music
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel "Develop an understanding of the history of music."@en ;
+  skos:broader nat:contentdescriptor-history-music ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-play-perform-range-solo-ensemble
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Play and perform confidently in a range of solo and ensemble contexts using
+  their voice, playing instruments musically, fluently and with accuracy and expression."""@en ;
+  skos:broader nat:contentdescriptor-play-perform-range-solo-ensemble ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-improvise-compose-extend-musical-ideas
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Improvise and compose; and extend and develop musical ideas by drawing on a
+  range of musical structures, styles, genres and traditions."""@en ;
+  skos:broader nat:contentdescriptor-improvise-compose-extend-musical-ideas ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-staff-other-relevant-notations-range
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Use staff and other relevant notations appropriately and accurately in a range
+  of musical styles, genres and traditions."""@en ;
+  skos:broader nat:contentdescriptor-staff-other-relevant-notations-range ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-identify-inter-related-dimensions-music
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Identify and use the inter-related dimensions of music expressively and with
+  increasing sophistication, including use of tonalities, different types of scales and
+  other musical devices."""@en ;
+  skos:broader nat:contentdescriptor-identify-inter-related-dimensions-music ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-listen-increasing-discrimination-wide-range
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Listen with increasing discrimination to a wide range of music from great
+  composers and musicians."""@en ;
+  skos:broader nat:contentdescriptor-listen-increasing-discrimination-wide-range ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .
+
+nat:subcontentdescriptor-deepening-music-perform-listen-history
+  a skos:Concept, natcurric:SubContentDescriptor ;
+  skos:prefLabel """Develop a deepening understanding of the music that they perform and to which
+  they listen, and its history."""@en ;
+  skos:broader nat:contentdescriptor-deepening-music-perform-listen-history ;
+  skos:inScheme nat:knowledge-taxonomy ;
+  dcterms:modified "2026-05-05T15:05:11Z"^^xsd:dateTime .

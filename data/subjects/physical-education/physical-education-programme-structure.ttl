@@ -1,0 +1,240 @@
+@prefix natcurric: <https://w3id.org/uk/curriculum/nat-ontology/> .
+@prefix nat: <https://w3id.org/uk/curriculum/nat-data-2014/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# ======================================================================
+# National Curriculum for England - Physical education Programme Structure
+# ======================================================================
+
+# ----------------------------------------------------------------------
+# Ontology Declaration
+# ----------------------------------------------------------------------
+
+<https://w3id.org/uk/curriculum/nat-data-2014/physical-education-programme-structure>
+  rdf:type owl:Ontology ;
+
+  rdfs:label "National Curriculum for England - Physical education Programme Structure"@en ;
+  dc:title "National Curriculum for England - Physical education Programme Structure"@en ;
+  rdfs:comment """Physical education programme structure that specifies schemes and progressions,
+  and a mapping to strands, sub-strands and content descriptors within the knowledge
+  taxonomy."""@en ;
+
+  owl:versionInfo "0.1.0" ;
+  owl:versionIRI <https://w3id.org/uk/curriculum/nat-data-2014/physical-education-programme-structure/0.1.0> ;
+
+  dcterms:description """Physical education programme structure that specifies schemes and
+  progressions, and a mapping to strands, sub-strands and content descriptors within the
+  knowledge taxonomy."""@en ;
+  dc:creator "Department for Education" ;
+  dcterms:created "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  dcterms:issued "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+
+  # OGL 3.0 License
+  dcterms:license <http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/> ;
+  dcterms:rights "Crown Copyright"@en ;
+
+  rdfs:seeAlso <https://w3id.org/uk/curriculum/nat-ontology> ;
+
+  vann:preferredNamespacePrefix "nat" ;
+  vann:preferredNamespaceUri "https://w3id.org/uk/curriculum/nat-data-2014/" ;
+
+  owl:imports <https://w3id.org/uk/curriculum/nat-ontology> ;
+  owl:imports <https://w3id.org/uk/curriculum/nat-data-2014/temporal-structure> ;
+  owl:imports <https://w3id.org/uk/curriculum/nat-data-2014/physical-education-knowledge-taxonomy> .
+
+# ----------------------------------------------------------------------
+# Subject Group
+# ----------------------------------------------------------------------
+
+nat:subjectgroup-physical-education
+  a natcurric:SubjectGroup ;
+  rdfs:label "Physical education"@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:coversDiscipline nat:discipline-physical-education .
+
+# ----------------------------------------------------------------------
+# Subjects
+# ----------------------------------------------------------------------
+
+nat:subject-physical-education
+  a natcurric:Subject ;
+  rdfs:label "Physical education"@en ;
+  natcurric:rationale """A high-quality physical education curriculum inspires all pupils to 
+  succeed and excel in competitive sport and other physically-demanding activities. It should 
+  provide opportunities for pupils to become physically confident in a way which supports their 
+  health and fitness. Opportunities to compete in sport and other activities build character and 
+  help to embed values such as fairness and respect."""@en ;
+  natcurric:hasAim
+    nat:aim-physical-education-develop-competence-range-physical-activities ,
+    nat:aim-physical-education-physically-active-sustained-periods ,
+    nat:aim-physical-education-engage-in-competitive-sports-activities ,
+    nat:aim-physical-education-lead-healthy-active-lives ; 
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isSubjectOf nat:subjectgroup-physical-education ;
+  natcurric:coversStrand
+    nat:strand-physical-education ,
+    nat:strand-swimming-and-water-safety .
+
+# ----------------------------------------------------------------------
+# Aims
+# ----------------------------------------------------------------------
+
+nat:aim-physical-education-develop-competence-range-physical-activities
+  a natcurric:Aim ;
+  rdfs:label "Develop competence to excel in a broad range of physical activities."@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime . 
+
+nat:aim-physical-education-physically-active-sustained-periods
+  a natcurric:Aim ;
+  rdfs:label "Are physically active for sustained periods of time."@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime . 
+
+nat:aim-physical-education-engage-in-competitive-sports-activities
+  a natcurric:Aim ;
+  rdfs:label "Engage in competitive sports and activities."@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime . 
+
+nat:aim-physical-education-lead-healthy-active-lives
+  a natcurric:Aim ;
+  rdfs:label "Lead healthy, active lives."@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime . 
+
+# ----------------------------------------------------------------------
+# Schemes
+# ----------------------------------------------------------------------
+
+nat:scheme-physical-education-key-stage-1
+  a natcurric:Scheme ;
+  rdfs:label "Physical education Key Stage 1"@en ;
+  dcterms:description """Pupils should develop fundamental movement skills, become increasingly 
+  competent and confident and access a broad range of opportunities to extend their agility, 
+  balance and coordination, individually and with others. They should be able to engage in 
+  competitive (both against self and against others) and co-operative physical activities, in a 
+  range of increasingly challenging situations. All schools must provide swimming instruction 
+  either in key stage 1 or key stage 2."""@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isSchemeOf nat:subject-physical-education ;
+  natcurric:coversKeyStage nat:key-stage-1 .
+
+nat:scheme-physical-education-key-stage-2
+  a natcurric:Scheme ;
+  rdfs:label "Physical education Key Stage 2"@en ;
+  dcterms:description """Pupils should continue to apply and develop a broader range of skills, 
+  learning how to use them in different ways and to link them to make actions and sequences of 
+  movement. They should enjoy communicating, collaborating and competing with each other. They 
+  should develop an understanding of how to improve in different physical activities and sports and 
+  learn how to evaluate and recognise their own success. All schools must provide swimming 
+  instruction either in key stage 1 or key stage 2."""@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isSchemeOf nat:subject-physical-education ;
+  natcurric:coversKeyStage nat:key-stage-2 .
+
+nat:scheme-physical-education-key-stage-3
+  a natcurric:Scheme ;
+  rdfs:label "Physical education Key Stage 3"@en ;
+  dcterms:description """Pupils should build on and embed the physical development and skills 
+  learned in key stages 1 and 2, become more competent, confident and expert in their techniques, 
+  and apply them across different sports and physical activities. They should understand what makes 
+  a performance effective and how to apply these principles to their own and others’ work. They 
+  should develop the confidence and interest to get involved in exercise, sports and activities out 
+  of school and in later life, and understand and apply the long-term health benefits of physical 
+  activity."""@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isSchemeOf nat:subject-physical-education ;
+  natcurric:coversKeyStage nat:key-stage-3 .
+
+nat:scheme-physical-education-key-stage-4
+  a natcurric:Scheme ;
+  rdfs:label "Physical education Key Stage 4"@en ;
+  dcterms:description """Pupils should tackle complex and demanding physical activities. They 
+  should get involved in a range of activities that develops personal fitness and promotes an 
+  active, healthy lifestyle."""@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isSchemeOf nat:subject-physical-education ;
+  natcurric:coversKeyStage nat:key-stage-4 .
+
+# ----------------------------------------------------------------------
+# Progressions
+# ----------------------------------------------------------------------
+
+nat:progression-physical-education-key-stage-1-physical-education
+  a natcurric:Progression ;
+  rdfs:label "Physical education Key Stage 1 Physical education"@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isProgressionOf nat:scheme-physical-education-key-stage-1 ;
+  natcurric:coversSubStrand nat:substrand-physical-education ;
+  natcurric:includesContentDescriptor
+    nat:contentdescriptor-master-basic-movements-running-jumping ,
+    nat:contentdescriptor-participate-team-games-simple-tactics ,
+    nat:contentdescriptor-perform-dances-simple-movement-patterns .
+
+nat:progression-physical-education-key-stage-2-physical-education
+  a natcurric:Progression ;
+  rdfs:label "Physical education Key Stage 2 Physical education"@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isProgressionOf nat:scheme-physical-education-key-stage-2 ;
+  natcurric:coversSubStrand nat:substrand-physical-education ;
+  natcurric:includesContentDescriptor
+    nat:contentdescriptor-running-jumping-throwing-catching-isolation ,
+    nat:contentdescriptor-play-competitive-games-modified-appropriate ,
+    nat:contentdescriptor-flexibility-strength-technique-control-balance ,
+    nat:contentdescriptor-perform-dances-range-movement-patterns ,
+    nat:contentdescriptor-take-part-outdoor-adventurous-activity ,
+    nat:contentdescriptor-compare-performances-previous-ones-improvement .
+
+nat:progression-physical-education-key-stage-1-swimming-and-water-safety
+  a natcurric:Progression ;
+  rdfs:label "Physical education Key Stage 1 Swimming and water safety"@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isProgressionOf nat:scheme-physical-education-key-stage-1 ;
+  natcurric:coversSubStrand nat:substrand-swimming-and-water-safety ;
+  natcurric:includesContentDescriptor
+    nat:contentdescriptor-swim-distance-25-metres ,
+    nat:contentdescriptor-range-strokes-example-front-crawl ,
+    nat:contentdescriptor-perform-safe-self-rescue-different .
+
+nat:progression-physical-education-key-stage-2-swimming-and-water-safety
+  a natcurric:Progression ;
+  rdfs:label "Physical education Key Stage 2 Swimming and water safety"@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isProgressionOf nat:scheme-physical-education-key-stage-2 ;
+  natcurric:coversSubStrand nat:substrand-swimming-and-water-safety ;
+  natcurric:includesContentDescriptor
+    nat:contentdescriptor-swim-distance-25-metres ,
+    nat:contentdescriptor-range-strokes-example-front-crawl ,
+    nat:contentdescriptor-perform-safe-self-rescue-different .
+
+nat:progression-physical-education-key-stage-3-physical-education
+  a natcurric:Progression ;
+  rdfs:label "Physical education Key Stage 3 Physical education"@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isProgressionOf nat:scheme-physical-education-key-stage-3 ;
+  natcurric:coversSubStrand nat:substrand-physical-education ;
+  natcurric:includesContentDescriptor
+    nat:contentdescriptor-range-tactics-strategies-overcome-opponents ,
+    nat:contentdescriptor-develop-technique-in-competitive-sports ,
+    nat:contentdescriptor-perform-dances-advanced-dance-techniques ,
+    nat:contentdescriptor-take-part-outdoor-adventurous-activities ,
+    nat:contentdescriptor-analyse-performances-compared-previous-ones ,
+    nat:contentdescriptor-take-part-competitive-sports-activities .
+
+nat:progression-physical-education-key-stage-4-physical-education
+  a natcurric:Progression ;
+  rdfs:label "Physical education Key Stage 4 Physical education"@en ;
+  dcterms:modified "2026-05-04T18:01:20Z"^^xsd:dateTime ;
+  natcurric:isProgressionOf nat:scheme-physical-education-key-stage-4 ;
+  natcurric:coversSubStrand nat:substrand-physical-education ;
+  natcurric:includesContentDescriptor
+    nat:contentdescriptor-variety-tactics-strategies-overcome-opponents ,
+    nat:contentdescriptor-improve-performance-in-competitive-sports ,
+    nat:contentdescriptor-take-part-further-outdoor-adventurous ,
+    nat:contentdescriptor-evaluate-performances-compared-previous-ones ,
+    nat:contentdescriptor-continue-take-part-competitive-sports .
