@@ -25,8 +25,8 @@
   rdfs:comment """Temporal structure defining the organizational framework of education 
   in England: phases, key stages, and year groups."""@en ;
 
-  owl:versionInfo "0.1.0" ;
-  owl:versionIRI <https://w3id.org/uk/oak/curriculum/nationalcurriculum/temporal-structure/0.1.0> ;
+  owl:versionInfo "0.1.1" ;
+  owl:versionIRI <https://w3id.org/uk/oak/curriculum/nationalcurriculum/temporal-structure/0.1.1> ;
   
   dcterms:description """This ontology defines the organizational structure of education in 
   England, including phases (Primary, Secondary), key stages (KS1-4), and year groups (Year 1 - 

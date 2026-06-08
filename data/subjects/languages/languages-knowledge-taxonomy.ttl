@@ -25,8 +25,8 @@
   rdfs:comment """Languages knowledge taxonomy defining the hierarchical organisation of content
   from strands through to sub-content descriptors."""@en ;
 
-  owl:versionInfo "0.1.0" ;
-  owl:versionIRI <https://w3id.org/uk/oak/curriculum/nationalcurriculum/languages-knowledge-taxonomy/0.1.0> ;
+  owl:versionInfo "0.1.1" ;
+  owl:versionIRI <https://w3id.org/uk/oak/curriculum/nationalcurriculum/languages-knowledge-taxonomy/0.1.1> ;
 
   dcterms:description """This file defines the Languages knowledge taxonomy for the National
   Curriculum in England, organising content through strands, sub-strands, content

@@ -25,8 +25,8 @@
   rdfs:comment """Languages programme structure that specifies schemes and progressions, and a
   mapping to strands, sub-strands and content descriptors within the knowledge taxonomy."""@en ;
 
-  owl:versionInfo "0.1.0" ;
-  owl:versionIRI <https://w3id.org/uk/oak/curriculum/nationalcurriculum/languages-programme-structure/0.1.0> ;
+  owl:versionInfo "0.1.1" ;
+  owl:versionIRI <https://w3id.org/uk/oak/curriculum/nationalcurriculum/languages-programme-structure/0.1.1> ;
 
   dcterms:description """Languages programme structure that specifies schemes and progressions, and
   a mapping to strands, sub-strands and content descriptors within the knowledge taxonomy."""@en ;

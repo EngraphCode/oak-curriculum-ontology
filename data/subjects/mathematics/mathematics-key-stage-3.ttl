@@ -28,7 +28,6 @@
 
   owl:versionInfo "0.1.1" ;
   owl:versionIRI <https://w3id.org/uk/oak/curriculum/oakcurriculum/mathematics-key-stage-3/0.1.1> ;
-  owl:priorVersion <https://w3id.org/uk/oak/curriculum/oakcurriculum/mathematics-key-stage-3/0.1.0> ;
 
   dcterms:description """This file contains Programme, Unit, Unit Variant, and Lesson instances for
   Mathematics Key Stage 3, including exam board-specific unit variants and lesson sequences."""@en ;

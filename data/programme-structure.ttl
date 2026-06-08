@@ -27,7 +27,6 @@
 
   owl:versionInfo "0.1.1" ;
   owl:versionIRI <https://w3id.org/uk/oak/curriculum/oakcurriculum/programme-structure/0.1.1> ;
-  owl:priorVersion <https://w3id.org/uk/oak/curriculum/oakcurriculum/programme-structure/0.1.0> ;
 
   dcterms:description """Instance data defining the exam boards and tiers used in Oak National Academy
   curriculum programmes."""@en ;
