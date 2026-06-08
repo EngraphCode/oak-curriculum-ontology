@@ -81,10 +81,10 @@ jobs:
             echo "❌ Validation failed"
             echo "conforms=false" >> $GITHUB_OUTPUT
 
-            # Count violations
-            VIOLATIONS=$(grep -c "Constraint Violation" /tmp/shacl-output.txt || echo "0")
-            echo "violations=$VIOLATIONS" >> $GITHUB_OUTPUT
-            echo "Found $VIOLATIONS constraint violations"
+            # Count violations (grep -c always outputs the count; || true suppresses non-zero exit when count is 0)
+            VIOLATIONS=$(grep -c "Constraint Violation" /tmp/shacl-output.txt || true)
+            echo "violations=${VIOLATIONS}" >> $GITHUB_OUTPUT
+            echo "Found ${VIOLATIONS} constraint violations"
 
             cat /tmp/shacl-output.txt
             exit 1

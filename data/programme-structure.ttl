@@ -46,6 +46,64 @@
   owl:imports <https://w3id.org/uk/oak/curriculum/ontology> .
 
 # ----------------------------------------------------------------------
+# Schemes
+# ----------------------------------------------------------------------
+
+oakcurric:scheme-art-and-design-key-stage-4
+  a curric:Scheme ;
+  rdfs:label "Art and design Key Stage 4"@en ;
+  dcterms:modified "2026-05-26T17:33:40.000000Z"^^xsd:dateTime ;
+  curric:isSchemeOf
+    natcurric:subject-art-and-design ;
+  curric:coversKeyStage
+    natcurric:key-stage-4 .
+
+oakcurric:scheme-design-and-technology-key-stage-4
+  a curric:Scheme ;
+  rdfs:label "Design and technology Key Stage 4"@en ;
+  dcterms:modified "2026-05-26T17:33:40.000000Z"^^xsd:dateTime ;
+  curric:isSchemeOf
+    natcurric:subject-design-and-technology ;
+  curric:coversKeyStage
+    natcurric:key-stage-4 .
+
+oakcurric:scheme-geography-key-stage-4
+  a curric:Scheme ;
+  rdfs:label "Geography Key Stage 4"@en ;
+  dcterms:modified "2026-05-26T17:33:40.000000Z"^^xsd:dateTime ;
+  curric:isSchemeOf
+    natcurric:subject-geography ;
+  curric:coversKeyStage
+    natcurric:key-stage-4 .
+
+oakcurric:scheme-history-key-stage-4
+  a curric:Scheme ;
+  rdfs:label "History Key Stage 4"@en ;
+  dcterms:modified "2026-05-26T17:33:40.000000Z"^^xsd:dateTime ;
+  curric:isSchemeOf
+    natcurric:subject-history ;
+  curric:coversKeyStage
+    natcurric:key-stage-4 .
+
+oakcurric:scheme-languages-key-stage-4
+  a curric:Scheme ;
+  rdfs:label "Languages Key Stage 4"@en ;
+  dcterms:modified "2026-05-26T17:33:40.000000Z"^^xsd:dateTime ;
+  curric:isSchemeOf
+    natcurric:subject-languages ;
+  curric:coversKeyStage
+    natcurric:key-stage-4 .
+
+oakcurric:scheme-music-key-stage-4
+  a curric:Scheme ;
+  rdfs:label "Music Key Stage 4"@en ;
+  dcterms:modified "2026-05-26T17:33:40.000000Z"^^xsd:dateTime ;
+  curric:isSchemeOf
+    natcurric:subject-music ;
+  curric:coversKeyStage
+    natcurric:key-stage-4 .
+
+# ----------------------------------------------------------------------
 # Tiers
 # ----------------------------------------------------------------------
 
