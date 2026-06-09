@@ -1714,7 +1714,7 @@ class ExternalRelationshipsTransformation(Transformation):
                 created_count += count
                 direction = "reversed" if should_reverse else "forward"
                 logger.info(f"  ✓ Created {count} {rel_type} relationships ({direction})")
-            except Exception as e:
+            except Exception:
                 logger.exception(f"  ✗ Failed to create {rel_type} relationships")
 
         return created_count
@@ -2197,7 +2197,7 @@ def load_and_aggregate_ttl_files(
                 logger.info(f"✓ Added {file_triple_count} triples")
             logger.info(f"  ✓ Committed in {(file_triple_count // batch_size) + 1} batches. Running total: {total_triples} triples")
 
-        except Exception as e:
+        except Exception:
             logger.exception(f"✗ Failed to export {ttl_file.name}")
             continue
 
@@ -2395,7 +2395,7 @@ def main() -> None:
         logger.info("2. Run: MATCH (n) RETURN labels(n), count(n)")
         logger.info("3. Explore your Oak Curriculum data!")
 
-    except Exception as e:
+    except Exception:
         logger.exception("Export failed")
         sys.exit(1)
 
