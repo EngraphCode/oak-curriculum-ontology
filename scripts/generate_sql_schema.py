@@ -258,6 +258,14 @@ NO_STANDARD_NAME_TABLES: dict[str, list[Column]] = {
     "lesson_inclusion": [],        # no name column; only data/FK columns
 }
 
+# Annotation property columns: OWLready2 only iterates owl:DatatypeProperty, so
+# owl:AnnotationProperty columns must be declared explicitly here.
+# Maps table name -> list of Column definitions to append if not already present.
+ANNOTATION_PROP_COLUMNS: dict[str, list[Column]] = {
+    "unit":   [Column("slug", "TEXT")],
+    "lesson": [Column("slug", "TEXT")],
+}
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -587,6 +595,12 @@ def generate_ddl(ontology_path: str | Path, dialect: str = "postgres") -> str:
     _add_data_property_columns(onto, table_columns, xsd_map)
     junction_tables = _add_object_property_relations(onto, table_columns)
     _add_skos_fk_columns(table_columns)
+    for table, cols in ANNOTATION_PROP_COLUMNS.items():
+        if table in table_columns:
+            existing = {c.name for c in table_columns[table]}
+            for col in cols:
+                if col.name not in existing:
+                    table_columns[table].append(col)
 
     return _render_ddl(table_columns, junction_tables, pk, dialect)
 
