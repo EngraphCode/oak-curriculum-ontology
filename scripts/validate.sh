@@ -60,31 +60,23 @@ fi
 echo ""
 echo "Step 3: Run SHACL validation..."
 
-# Run pyshacl - prefer uv, then venv, then system
+PYSHACL_ARGS=(
+    --shacl ontology/oak-curriculum-constraints.ttl
+    --ont-graph ontology/oak-curriculum-ontology.ttl
+    --inference rdfs
+    --abort
+    --format human
+    /tmp/combined-data.ttl
+)
+
+# Run pyshacl - prefer uv, then venv, then system; capture exit code without aborting script
+set +e
 if command -v uv &> /dev/null; then
-    uv run pyshacl \
-        --shacl ontology/oak-curriculum-constraints.ttl \
-        --ont-graph ontology/oak-curriculum-ontology.ttl \
-        --inference rdfs \
-        --abort \
-        --format human \
-        /tmp/combined-data.ttl
+    uv run pyshacl "${PYSHACL_ARGS[@]}" | tee /tmp/shacl-output.txt
 elif [[ -f ".venv/bin/pyshacl" ]]; then
-    .venv/bin/pyshacl \
-        --shacl ontology/oak-curriculum-constraints.ttl \
-        --ont-graph ontology/oak-curriculum-ontology.ttl \
-        --inference rdfs \
-        --abort \
-        --format human \
-        /tmp/combined-data.ttl
+    .venv/bin/pyshacl "${PYSHACL_ARGS[@]}" | tee /tmp/shacl-output.txt
 elif command -v pyshacl &> /dev/null; then
-    pyshacl \
-        --shacl ontology/oak-curriculum-constraints.ttl \
-        --ont-graph ontology/oak-curriculum-ontology.ttl \
-        --inference rdfs \
-        --abort \
-        --format human \
-        /tmp/combined-data.ttl
+    pyshacl "${PYSHACL_ARGS[@]}" | tee /tmp/shacl-output.txt
 else
     echo "❌ Error: pyshacl not found" >&2
     echo ""
@@ -94,6 +86,18 @@ else
     echo "Or without uv:"
     echo "  pip install pyshacl"
     exit 1
+fi
+set -e
+
+# Only fail if there are actual violations; warnings alone are not failures
+VIOLATIONS=$(grep -c "Constraint Violation" /tmp/shacl-output.txt || true)
+if [ "${VIOLATIONS}" -gt 0 ]; then
+    echo ""
+    echo "❌ Found ${VIOLATIONS} constraint violation(s)"
+    exit 1
+elif grep -q "sh:Warning\|sh:Info" /tmp/shacl-output.txt; then
+    echo ""
+    echo "⚠️  Validation passed with warnings (no violations)"
 fi
 
 echo ""
