@@ -443,6 +443,7 @@ def _load_tier4_5(g: Graph, cur: Any, adapter: DbAdapter, lookup: dict[str, int]
             "uri": str(uri),
             "name": lit_str(g, uri, RDFS.label) or "",
             "scheme_id": resolve_fk(fk_uri(g, uri, CURRIC.isProgressionOf), lookup),
+            "year_group_id": resolve_fk(fk_uri(g, uri, CURRIC.coversYearGroup), lookup),
         }
         for uri in _batch
     ]))

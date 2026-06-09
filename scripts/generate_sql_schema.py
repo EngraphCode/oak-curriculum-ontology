@@ -127,6 +127,15 @@ NULLABLE_FK_COLS: set[tuple[str, str]] = {
     ("programme", "tier_id"),
     ("unit_variant_inclusion", "unit_variant_id"),
     ("unit_variant_inclusion", "unit_variant_choice_id"),
+    ("progression", "year_group_id"),  # coversYearGroup is optional on Progression
+}
+
+# Object property domain override: for properties where OWL rdfs:domain has been
+# removed or broadened to multiple classes. Maps prop local-name to the list of
+# domain tables that should receive the FK column.
+# Only DIRECT_FK_PROPS entries are supported here.
+OBJECT_PROP_DOMAIN_OVERRIDE: dict[str, list[str]] = {
+    "coversYearGroup": ["programme", "progression"],
 }
 
 # Data properties that are required (NOT NULL) per SHACL sh:minCount 1
@@ -484,7 +493,26 @@ def _add_object_property_relations(
 
         dom = domain_classes(prop)
         rng = range_classes(prop)
-        if not dom or not rng:
+        if not rng:
+            continue
+
+        if not dom and prop_name in OBJECT_PROP_DOMAIN_OVERRIDE and prop_name in DIRECT_FK_PROPS:
+            for table in OBJECT_PROP_DOMAIN_OVERRIDE[prop_name]:
+                if table not in table_columns:
+                    continue
+                for rng_cls in rng:
+                    ref_table = camel_to_snake(local_name(rng_cls.iri))
+                    fk_col = f"{ref_table}_id"
+                    if fk_col not in {c.name for c in table_columns[table]}:
+                        nullable = (table, fk_col) in NULLABLE_FK_COLS
+                        not_null = "" if nullable else "NOT NULL "
+                        table_columns[table].append(Column(
+                            fk_col,
+                            f"INTEGER {not_null}REFERENCES {ref_table}(id) ON DELETE RESTRICT",
+                        ))
+            continue
+
+        if not dom:
             continue
 
         if prop_name in INVERSE_FK_PROPS:
