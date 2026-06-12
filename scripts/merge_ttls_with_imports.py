@@ -41,8 +41,19 @@ URI_PATTERNS: list[tuple[str, tuple[str, ...]]] = [
     ("w3id.org/uk/curriculum/oakcurriculum/threads", ("data", "threads.ttl")),
 ]
 
-# Science-related subjects that are stored in data/subjects/science/
-SCIENCE_SUBJECTS = {"biology", "chemistry", "physics", "combined-science", "science"}
+# Subjects whose data is consolidated into another subject's files, e.g.
+# biology-programme-structure is declared inside the-sciences-programme-structure.ttl
+SUBJECT_ALIASES = {
+    "biology": "the-sciences",
+    "chemistry": "the-sciences",
+    "physics": "the-sciences",
+    "combined-science": "the-sciences",
+    "science": "the-sciences",
+    "french": "languages",
+    "german": "languages",
+    "spanish": "languages",
+    "cooking-nutrition": "design-and-technology",
+}
 
 # Default configuration
 DEFAULT_OUTPUT_FILE = Path(tempfile.gettempdir()) / "combined-data.ttl"
@@ -75,10 +86,16 @@ class TTLMerger:
             match = re.search(rf"nationalcurriculum/([\w-]+)-{suffix}", import_uri_str)
             if match:
                 subject = match.group(1)
-                subject_dir = "science" if subject in SCIENCE_SUBJECTS else subject
-                path = self._try_path("data", "subjects", subject_dir, f"{subject}-{suffix}.ttl")
+                # Exact subject file first, then the consolidated file for
+                # subjects whose data lives under another subject
+                path = self._try_path("data", "subjects", subject, f"{subject}-{suffix}.ttl")
                 if path:
                     return path
+                alias = SUBJECT_ALIASES.get(subject)
+                if alias:
+                    path = self._try_path("data", "subjects", alias, f"{alias}-{suffix}.ttl")
+                    if path:
+                        return path
         return None
 
     def _resolve_special_uri(self, uri_str: str) -> Path | None:
@@ -224,8 +241,13 @@ class TTLMerger:
                 logger.warning("Root path not found: %s", path_str)
 
     def save(self, output_file: Path) -> None:
-        """Serialize the merged graph to a file."""
-        self.graph.serialize(destination=str(output_file), format="turtle")
+        """Serialize the merged graph to a file.
+
+        The format follows the output suffix: ``.nt`` writes N-Triples
+        (faster to serialize and to re-parse), anything else writes Turtle.
+        """
+        fmt = "nt" if output_file.suffix == ".nt" else "turtle"
+        self.graph.serialize(destination=str(output_file), format=fmt, encoding="utf-8")
         logger.info("Merged %d files into %s", len(self.seen_files), output_file)
 
 

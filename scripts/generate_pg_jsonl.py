@@ -83,7 +83,7 @@ def local_name(uri: URIRef) -> str:
 def stub_namespace_label(uri: str) -> str:
     """Return the namespace segment of a stub URI (penultimate path segment).
 
-    For https://w3id.org/uk/curriculum/nat-data-2014/year-group-1 → nat-data-2014
+    For https://w3id.org/uk/oak/curriculum/nationalcurriculum/year-group-1 → nationalcurriculum
     """
     s = uri.rstrip("/#")
     # Drop the local name (last segment)
@@ -257,7 +257,7 @@ def _write_relationships(g: Graph, nodes: dict[str, dict], output_dir: Path) -> 
 def generate(input_ttl: Path, output_dir: Path) -> dict:
     print(f"  Loading {input_ttl} ...")
     g = Graph()
-    g.parse(str(input_ttl), format="turtle")
+    g.parse(str(input_ttl))  # format inferred from suffix (.ttl or .nt)
     print(f"  Graph contains {len(g):,} triples")
 
     ontology_classes, ontology_files, non_node_uris = _discover_ontology_entities(g)
