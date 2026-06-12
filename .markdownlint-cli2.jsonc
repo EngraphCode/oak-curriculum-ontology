@@ -18,6 +18,13 @@
     "MD060": false
   },
   "globs": ["**/*.md"],
-  // Licence files are reproduced verbatim and are not linted
-  "ignores": ["node_modules/**", ".venv/**", "CODE-LICENSE.md", "DATA-LICENSE.md"]
+  // Licence files are reproduced verbatim; the PR template is a form
+  // (starts at h2), not a document — neither is linted
+  "ignores": [
+    "node_modules/**",
+    ".venv/**",
+    "CODE-LICENSE.md",
+    "DATA-LICENSE.md",
+    ".github/pull_request_template.md"
+  ]
 }
