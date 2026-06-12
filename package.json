@@ -1,0 +1,18 @@
+{
+  "name": "oak-curriculum-ontology",
+  "private": true,
+  "description": "Linting tooling for the Oak Curriculum Ontology repository",
+  "packageManager": "pnpm@11.2.0",
+  "scripts": {
+    "prepare": "husky",
+    "lint:md": "markdownlint-cli2",
+    "lint:md:fix": "markdownlint-cli2 --fix"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "markdownlint-cli2": "^0.18.1"
+  }
+}
