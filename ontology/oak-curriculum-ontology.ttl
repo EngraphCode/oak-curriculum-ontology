@@ -27,8 +27,8 @@
   It is a machine-readable semantic representation of the Oak Curriculum and linkage to the 
   National Curriculum for England (2014)."""@en ;
 
-  owl:versionInfo "0.1.1" ;
-  owl:versionIRI <https://w3id.org/uk/oak/curriculum/ontology/0.1.1> ;
+  owl:versionInfo "0.1.3" ;
+  owl:versionIRI <https://w3id.org/uk/oak/curriculum/ontology/0.1.3> ;
 
   bibo:status "Published" ;
   dcterms:abstract """This ontology defines the structure of programmes, units, unit variants, and 
