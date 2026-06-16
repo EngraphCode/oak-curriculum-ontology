@@ -26,8 +26,8 @@
   rdfs:comment """Instance data defining the Oak National Academy Curriculum
   programmes for Combined Science Key Stage 4."""@en ;
 
-  owl:versionInfo "0.1.1" ;
-  owl:versionIRI <https://w3id.org/uk/oak/curriculum/oakcurriculum/combined-science-key-stage-4/0.1.1> ;
+  owl:versionInfo "0.1.3" ;
+  owl:versionIRI <https://w3id.org/uk/oak/curriculum/oakcurriculum/combined-science-key-stage-4/0.1.3> ;
 
   dcterms:description """This file contains Programme, Unit, Unit Variant, and Lesson instances for
   Combined Science Key Stage 4, including exam board-specific unit variants and lesson sequences."""@en ;

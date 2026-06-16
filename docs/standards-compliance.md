@@ -1,7 +1,9 @@
 # Standards Compliance and Interoperability
 
-**Version:** 0.1.0
-**Last Updated:** 2026-02-16
+**Version:** 0.1.3
+**Author:** Oak National Academy
+**License:** Open Government Licence v3.0
+**Last Updated:** 2026-06-16
 
 ---
 
@@ -361,7 +363,7 @@ Semantic versioning provides clear signals about:
 - **Bug fixes** (PATCH): Backward-compatible corrections
 
 **How we use it:**
-Current version: **0.1.0**
+Current version: **0.1.3**
 
 Version information is tracked through:
 
@@ -373,8 +375,8 @@ Version information is tracked through:
 
 ```turtle
 <https://w3id.org/uk/oak/curriculum/ontology/>
-  owl:versionInfo "0.1.0" ;
-  owl:versionIRI <https://w3id.org/uk/oak/curriculum/ontology/0.1.0> .
+  owl:versionInfo "0.1.3" ;
+  owl:versionIRI <https://w3id.org/uk/oak/curriculum/ontology/0.1.3> .
 ```
 
 **Benefits:**
@@ -558,8 +560,3 @@ This foundation enables Oak National Academy and the broader educational communi
 - Linked Data Principles: <https://www.w3.org/DesignIssues/LinkedData.html>
 
 ---
-
-**Document Version:** 1.0
-**Author:** Oak National Academy
-**License:** Open Government Licence v3.0
-**Last Review Date:** 2026-02-16
