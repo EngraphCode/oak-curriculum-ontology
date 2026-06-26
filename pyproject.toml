@@ -68,26 +68,14 @@ module = ["tqdm", "tqdm.*"]
 ignore_missing_imports = true
 
 [tool.commitizen]
-name = "cz_conventional_commits"
+name = "cz_customize"
 tag_format = "v$version"
 version_scheme = "semver"
 version_provider = "pep621"
 update_changelog_on_bump = false
-allowed_prefixes = [
-    "build",
-    "chore",
-    "ci",
-    "data",
-    "docs",
-    "feat",
-    "fix",
-    "perf",
-    "refactor",
-    "revert",
-    "style",
-    "test",
-    "wip",
-]
+
+[tool.commitizen.customize]
+schema_pattern = '(build|chore|ci|data|docs|feat|fix|perf|refactor|revert|style|test|wip)(\(\S+\))?!?: .+'
 
 [tool.pymarkdown]
 # Long lines are fine in prose, tables, and URLs
