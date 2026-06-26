@@ -18,9 +18,6 @@ venv/
 # Keep example files (these are safe to commit)
 !.env.example
 
-# uv
-uv.lock
-
 # IDE
 .idea/
 .vscode/
@@ -43,3 +40,4 @@ build/
 
 # Distribution files (published via GitHub Releases)
 distributions/
+

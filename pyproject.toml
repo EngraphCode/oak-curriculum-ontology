@@ -1,6 +1,6 @@
 [project]
 name = "oak-curriculum-ontology"
-version = "0.1.0"
+version = "0.1.3"
 description = "Oak National Academy Curriculum Ontology - A formal semantic representation of the Oak Curriculum and linkage to the National Curriculum for England (2014)"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -17,9 +17,16 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Information Analysis",
 ]
 
+# Core dependencies cover validation and distribution generation; the Neo4j
+# and SQL export stack lives in the "export" extra so CI validation installs
+# stay small (owlready2 in particular builds from source).
 dependencies = [
     "rdflib>=7.5.0",
     "pyshacl>=0.31.0",
+]
+
+[project.optional-dependencies]
+export = [
     "rdflib-neo4j>=0.6.0",
     "neo4j>=5.0.0",
     "pydantic>=2.0.0",
@@ -28,16 +35,21 @@ dependencies = [
     "owlready2>=0.47",
     "psycopg2-binary>=2.9.0",
 ]
-
-[project.optional-dependencies]
 dev = [
     "ruff>=0.2.0",
     "mypy>=1.8.0",
+    "pytest>=8.0",
+    "pre-commit>=3.7.0",
+    "commitizen>=3.29.0",
+    "pymarkdownlnt>=0.9.0",
 ]
 
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
 [tool.mypy]
 python_version = "3.12"
@@ -54,6 +66,28 @@ ignore_missing_imports = true
 [[tool.mypy.overrides]]
 module = ["tqdm", "tqdm.*"]
 ignore_missing_imports = true
+
+[tool.commitizen]
+name = "cz_customize"
+tag_format = "v$version"
+version_scheme = "semver"
+version_provider = "pep621"
+update_changelog_on_bump = false
+
+[tool.commitizen.customize]
+schema_pattern = '(build|chore|ci|data|docs|feat|fix|perf|refactor|revert|style|test|wip)(\(\S+\))?!?: .+'
+
+[tool.pymarkdown]
+# Long lines are fine in prose, tables, and URLs
+plugins.line-length.enabled = false
+# Inline HTML is used for badges and anchors
+plugins.no-inline-html.enabled = false
+# Allow duplicate headings in sibling sections (e.g. "Usage" per script)
+plugins.no-duplicate-header.allow_different_nesting = true
+# Bold run-in labels are an intentional documentation style
+plugins.no-emphasis-as-heading.enabled = false
+# Numbered lists interrupted by code blocks are valid; linter cannot track continuation
+plugins.ol-prefix.enabled = false
 
 [tool.setuptools]
 packages = []

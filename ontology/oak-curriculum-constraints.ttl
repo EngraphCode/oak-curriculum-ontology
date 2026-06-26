@@ -26,8 +26,8 @@
   dc:title "Oak Curriculum Ontology - SHACL Constraints"@en ;
   rdfs:comment "SHACL validation constraints for the Oak Curriculum Ontology."@en ;
 
-  owl:versionInfo "0.1.1" ;
-  owl:versionIRI <https://w3id.org/uk/oak/curriculum/ontology/shapes/0.1.1> ;
+  owl:versionInfo "0.1.3" ;
+  owl:versionIRI <https://w3id.org/uk/oak/curriculum/ontology/shapes/0.1.3> ;
 
   dcterms:description """These SHACL constraints represent current rules and policies that may
   evolve over time, separate from the core ontology definitions."""@en ;

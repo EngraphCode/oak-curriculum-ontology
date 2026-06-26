@@ -83,7 +83,7 @@ def local_name(uri: URIRef) -> str:
 def stub_namespace_label(uri: str) -> str:
     """Return the namespace segment of a stub URI (penultimate path segment).
 
-    For https://w3id.org/uk/curriculum/nat-data-2014/year-group-1 → nat-data-2014
+    For https://w3id.org/uk/oak/curriculum/nationalcurriculum/year-group-1 → nationalcurriculum
     """
     s = uri.rstrip("/#")
     # Drop the local name (last segment)
@@ -209,7 +209,9 @@ def _write_nodes(nodes: dict[str, dict], output_dir: Path) -> tuple[int, int]:
     """Pass 5: write nodes.jsonl; return (node_count, stub_count)."""
     node_count = 0
     stub_count = 0
-    with open(output_dir / "nodes.jsonl", "w", encoding="utf-8") as f:
+    node_file = (output_dir / "nodes.jsonl").resolve()
+    node_file.relative_to(output_dir.resolve())
+    with open(node_file, "w", encoding="utf-8") as f:
         for uri, data in nodes.items():
             if data["stub"]:
                 labels = ["ExternalReference"]
@@ -230,7 +232,9 @@ def _write_nodes(nodes: dict[str, dict], output_dir: Path) -> tuple[int, int]:
 def _write_relationships(g: Graph, nodes: dict[str, dict], output_dir: Path) -> int:
     """Pass 6: write relationships.jsonl; return relationship count."""
     rel_count = 0
-    with open(output_dir / "relationships.jsonl", "w", encoding="utf-8") as f:
+    rel_file = (output_dir / "relationships.jsonl").resolve()
+    rel_file.relative_to(output_dir.resolve())
+    with open(rel_file, "w", encoding="utf-8") as f:
         for subj, pred, obj in g:
             if isinstance(subj, BNode) or isinstance(obj, BNode):
                 continue
@@ -257,7 +261,7 @@ def _write_relationships(g: Graph, nodes: dict[str, dict], output_dir: Path) -> 
 def generate(input_ttl: Path, output_dir: Path) -> dict:
     print(f"  Loading {input_ttl} ...")
     g = Graph()
-    g.parse(str(input_ttl), format="turtle")
+    g.parse(str(input_ttl))  # format inferred from suffix (.ttl or .nt)
     print(f"  Graph contains {len(g):,} triples")
 
     ontology_classes, ontology_files, non_node_uris = _discover_ontology_entities(g)
@@ -281,8 +285,8 @@ def main() -> None:
         print(f"Usage: {sys.argv[0]} <input.ttl> <output_dir>", file=sys.stderr)
         sys.exit(1)
 
-    input_ttl = Path(sys.argv[1])
-    output_dir = Path(sys.argv[2])
+    input_ttl = Path(sys.argv[1]).resolve()
+    output_dir = Path(sys.argv[2]).resolve()
 
     if not input_ttl.exists():
         print(f"Error: {input_ttl} not found", file=sys.stderr)

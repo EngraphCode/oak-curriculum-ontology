@@ -26,8 +26,8 @@
   rdfs:comment """Instance data defining the Oak National Academy Curriculum
   programmes for Design And Technology Key Stage 2."""@en ;
 
-  owl:versionInfo "0.1.1" ;
-  owl:versionIRI <https://w3id.org/uk/oak/curriculum/oakcurriculum/design-and-technology-key-stage-2/0.1.1> ;
+  owl:versionInfo "0.1.3" ;
+  owl:versionIRI <https://w3id.org/uk/oak/curriculum/oakcurriculum/design-and-technology-key-stage-2/0.1.3> ;
 
   dcterms:description """This file contains Programme, Unit, Unit Variant, and Lesson instances for
   Design And Technology Key Stage 2, including exam board-specific unit variants and lesson sequences."""@en ;

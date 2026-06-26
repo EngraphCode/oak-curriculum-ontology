@@ -11,11 +11,12 @@ This directory contains automated CI/CD workflows for the Oak Curriculum Ontolog
   - [1. Validate Ontology](#1-validate-ontology)
   - [2. Generate Documentation](#2-generate-documentation)
   - [3. Generate Distributions](#3-generate-distributions)
+  - [4. Lint](#4-lint)
 - [Workflow Features](#workflow-features)
 - [Security](#security)
 - [Performance](#performance)
 - [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
+- [Contributing](../../CONTRIBUTING.md)
 
 ---
 
@@ -90,7 +91,7 @@ Validates the ontology structure and curriculum data against SHACL constraints t
 
 #### Example Output
 
-```
+```text
 ✅ Merged Turtle syntax is valid
 ✅ Validation passed
    Triple count: 45,231
@@ -155,9 +156,10 @@ Generates comprehensive HTML documentation from the ontology and deploys it to G
 
 #### Generated Documentation
 
-**URL:** https://oaknational.github.io/oak-curriculum-ontology/
+**URL:** <https://oaknational.github.io/oak-curriculum-ontology/>
 
 **Includes:**
+
 - 📖 Complete ontology documentation
 - 🎨 WebVOWL interactive graph visualization
 - 📊 Class and property definitions
@@ -283,6 +285,52 @@ env:
 
 ---
 
+### 4. Lint
+
+**File:** [`lint.yml`](./lint.yml)
+
+#### Purpose
+
+Enforces code quality, markdown standards, and conventional commit format on every push and pull request.
+
+#### Triggers
+
+- **Push** to `main` branch
+- **Pull Request** to `main` branch
+- **Manual dispatch** via GitHub Actions UI
+
+#### Jobs
+
+**`pre-commit`** — Markdown linting
+
+- Runs `pymarkdown` via `pre-commit` against all `.md` files
+- Configuration in `pyproject.toml` under `[tool.pymarkdown]`
+
+**`python`** — Python quality checks
+
+- Lints all Python scripts with `ruff`
+- Runs the full test suite with `pytest`
+- Type-checks key scripts with `mypy --strict`
+
+**`commitizen`** *(pull requests only)* — Commit message linting
+
+- Checks all commits in the PR conform to conventional commit format
+- Allowed types: `build`, `chore`, `ci`, `data`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, `test`, `wip`
+- Configuration in `pyproject.toml` under `[tool.commitizen]`
+
+#### Configuration
+
+```yaml
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+```
+
+---
+
 ## Workflow Features
 
 ### Security Best Practices
@@ -369,7 +417,6 @@ All external downloads are verified:
 | Generate Documentation | 2-3 min |
 | Generate Distributions | 5-7 min |
 
-
 ### Concurrency Control
 
 Prevents resource waste from duplicate runs:
@@ -389,12 +436,14 @@ concurrency:
 **Problem:** SHACL validation fails with constraint violations
 
 **Solution:**
+
 1. Check the uploaded validation report artifact
 2. Review the violation count in the step summary
 3. Fix data issues in the relevant TTL files
 4. Re-run validation
 
 **Common Issues:**
+
 - Missing required properties (rdfs:label, skos:definition)
 - Non-consecutive display orders
 - Invalid data types or language tags
@@ -404,6 +453,7 @@ concurrency:
 **Problem:** Widoco fails to generate documentation
 
 **Solution:**
+
 1. Check that `ontology/oak-curriculum-ontology.ttl` exists and is valid
 2. Verify Docker is running properly
 3. Check for syntax errors in the ontology file
@@ -414,6 +464,7 @@ concurrency:
 **Problem:** RDF format validation fails
 
 **Solution:**
+
 1. Check which format failed (Turtle, JSON-LD, RDF/XML, N-Triples)
 2. Review the Apache Jena riot output
 3. Verify source TTL files are syntactically correct
@@ -428,10 +479,12 @@ concurrency:
 ## Additional Resources
 
 ### GitHub Actions Documentation
+
 - [Workflow Syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions)
 - [Security Hardening](https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions)
 
 ### Tools & Technologies
+
 - [uv Package Manager](https://github.com/astral-sh/uv)
 - [Apache Jena](https://jena.apache.org/)
 - [Widoco](https://github.com/dgarijo/Widoco)
@@ -439,6 +492,7 @@ concurrency:
 - [rdflib](https://github.com/RDFLib/rdflib)
 
 ### Semantic Web Standards
+
 - [RDF 1.1 Concepts](https://www.w3.org/TR/rdf11-concepts/)
 - [OWL 2 Overview](https://www.w3.org/TR/owl2-overview/)
 - [SHACL](https://www.w3.org/TR/shacl/)
@@ -446,6 +500,6 @@ concurrency:
 
 ---
 
-**Last Updated:** 2026-02-15
+**Last Updated:** 2026-06-26
 **Workflow Version:** 1.0
 **Documentation Version:** 1.0

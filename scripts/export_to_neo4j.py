@@ -13,8 +13,7 @@ import argparse
 import json
 import logging
 from pathlib import Path
-from typing import Optional, Any, Union, TypedDict, Callable, TypeVar, Self
-from contextlib import contextmanager
+from typing import Any, TypedDict, Callable, Self
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
@@ -22,7 +21,7 @@ from rdflib import Graph, Namespace, URIRef, BNode
 from rdflib.collection import Collection
 from rdflib_neo4j import Neo4jStoreConfig, Neo4jStore, HANDLE_VOCAB_URI_STRATEGY
 from dotenv import load_dotenv
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from neo4j import GraphDatabase, Driver, Session
 from neo4j.exceptions import ServiceUnavailable, TransientError, AuthError, CypherSyntaxError
 from tqdm import tqdm
@@ -58,7 +57,7 @@ class LabelMappingConfig(BaseModel):
     source_label: str = "Resource"
     target_label: str = "Oak"
     uri_pattern: str
-    description: Optional[str] = None
+    description: str | None = None
 
 
 class FileDiscoveryConfig(BaseModel):
@@ -120,15 +119,15 @@ class Neo4jExportConfig(BaseModel):
 
     rdf_source: RDFSourceConfig
     neo4j_connection: Neo4jConnectionConfig = Neo4jConnectionConfig()
-    dataset_label: Optional[str] = None  # Optional label to add to all nodes (e.g., "NatCurric2014")
-    label_mapping: Union[LabelMappingConfig, list[LabelMappingConfig]] = Field(validation_alias="label_mappings")
+    dataset_label: str | None = None  # Optional label to add to all nodes (e.g., "NatCurric2014")
+    label_mapping: LabelMappingConfig | list[LabelMappingConfig] = Field(validation_alias="label_mappings")
     remove_labels: list[str] = []  # Labels to remove from main_label nodes
     uri_slug_extraction: dict[str, str] = {}
     prefixed_slug_mappings: dict[str, PrefixedSlugMappingConfig] = {}
     property_mappings: dict[str, dict[str, str]] = {}
     multi_valued_properties: dict[str, list[str]] = {}  # Node type -> list of array properties
     extract_object_uris_as_properties: dict[str, dict[str, str]] = {}  # Node type -> {predicate: property_name}
-    relationship_type_mappings: dict[str, Union[str, list[ConditionalRelationshipMapping]]] = {}
+    relationship_type_mappings: dict[str, str | list[ConditionalRelationshipMapping]] = {}
     reverse_relationships: dict[str, str] = {}
     inclusion_flattening: list[InclusionFlatteningConfig] = []
     external_namespaces: list[str] = []  # External namespace URIs for cross-dataset relationships
@@ -171,10 +170,7 @@ class TransformationData(TypedDict, total=False):
 # UTILITY FUNCTIONS - Error Handling & Retry
 # ============================================================================
 
-# TypeVar for generic return type
-T = TypeVar('T')
-
-def retry_on_transient_error(func: Callable[..., T], *args: Any, max_retries: int = MAX_RETRIES, **kwargs: Any) -> T:
+def retry_on_transient_error[T](func: Callable[..., T], *args: Any, max_retries: int = MAX_RETRIES, **kwargs: Any) -> T:
     """
     Retry a function on transient Neo4j errors with exponential backoff.
 
@@ -230,7 +226,7 @@ def retry_on_transient_error(func: Callable[..., T], *args: Any, max_retries: in
 class ExportConfig:
     """Manages configuration loading and environment variables."""
 
-    def __init__(self, config_path: Path, env_path: Optional[Path] = None) -> None:
+    def __init__(self, config_path: Path, env_path: Path | None = None) -> None:
         """
         Load configuration from JSON file and environment.
 
@@ -244,9 +240,12 @@ class ExportConfig:
         # Load environment
         load_dotenv(self.env_path)
 
+        # Resolve config path to eliminate any traversal sequences before opening
+        resolved_config = config_path.resolve()
+
         # Load and validate config
         try:
-            with open(config_path, 'r', encoding='utf-8') as f:
+            with open(resolved_config, 'r', encoding='utf-8') as f:
                 config_dict = json.load(f)
         except FileNotFoundError:
             raise FileNotFoundError(f"Configuration file not found: {config_path}") from None
@@ -288,7 +287,7 @@ class ExportConfig:
 class RDFLoader:
     """Handles TTL file discovery, loading, and filtering."""
 
-    def __init__(self, config: RDFSourceConfig, project_root: Path, export_config: Optional['Neo4jExportConfig'] = None) -> None:
+    def __init__(self, config: RDFSourceConfig, project_root: Path, export_config: 'Neo4jExportConfig | None' = None) -> None:
         """
         Initialize RDF loader.
 
@@ -311,7 +310,7 @@ class RDFLoader:
         self.OWL = self.namespaces.get('owl', Namespace("https://www.w3.org/2002/07/owl#"))
         self.RDF = self.namespaces.get('rdf', Namespace("https://www.w3.org/1999/02/22-rdf-syntax-ns#"))
 
-    def _parse_namespaced_identifier(self, identifier: str) -> Optional[URIRef]:
+    def _parse_namespaced_identifier(self, identifier: str) -> URIRef | None:
         """
         Parse 'prefix:localname' or full URI into URIRef.
 
@@ -335,7 +334,7 @@ class RDFLoader:
         logger.warning(f"Unknown namespace prefix '{prefix}' in identifier '{identifier}' - skipping")
         return None
 
-    def _resolve_rdf_type(self, graph: Graph, node_label: str) -> Optional[URIRef]:
+    def _resolve_rdf_type(self, graph: Graph, node_label: str) -> URIRef | None:
         """
         Find RDF type URI for a given node label by trying all namespaces.
 
@@ -347,7 +346,7 @@ class RDFLoader:
                 return type_uri
         return None
 
-    def _resolve_predicate(self, graph: Graph, property_name: str) -> Optional[URIRef]:
+    def _resolve_predicate(self, graph: Graph, property_name: str) -> URIRef | None:
         """
         Find predicate URI for a given property name by trying all namespaces.
 
@@ -829,7 +828,7 @@ class RDFLoader:
         Returns:
             List of tuples: (subject_uri, predicate_uri, object_uri)
         """
-        external_rels = []
+        external_rels: list[tuple[str, str, str]] = []
         triples_to_remove = []
 
         # Get external namespaces from config
@@ -855,7 +854,7 @@ class RDFLoader:
 
                 # Check if subject is Oak data (not external)
                 subj_str = str(s)
-                is_oak_subject = subj_str.startswith('https://w3id.org/uk/curriculum/oak-data')
+                is_oak_subject = subj_str.startswith('https://w3id.org/uk/oak/curriculum/oakcurriculum/')
 
                 # Extract if: Oak subject → external object
                 if is_oak_subject and is_external:
@@ -896,8 +895,8 @@ class Neo4jConnection:
         self.auth_data = auth_data
         self.custom_prefixes = custom_prefixes
         self.config = config
-        self.store: Optional[Neo4jStore] = None
-        self.graph: Optional[Graph] = None
+        self.store: Neo4jStore | None = None
+        self.graph: Graph | None = None
 
     def __enter__(self) -> Self:
         """Open Neo4j RDF store."""
@@ -966,7 +965,7 @@ class Transformation(ABC):
         """
         pass
 
-    def _execute_count_query(self, session: Session, query: str, params: Optional[dict[str, Any]] = None,
+    def _execute_count_query(self, session: Session, query: str, params: dict[str, Any] | None = None,
                             operation_desc: str = "") -> int:
         """
         Execute a Cypher query that returns a count, with standardized logging.
@@ -1856,7 +1855,7 @@ class TransformationPipeline:
 # UTILITY FUNCTIONS
 # ============================================================================
 
-def _delete_label_in_batches(session: Session, label: str, batch_size: int, dataset_label: Optional[str] = None) -> int:
+def _delete_label_in_batches(session: Session, label: str, batch_size: int, dataset_label: str | None = None) -> int:
     """
     Delete all nodes with a given label in batches.
 
@@ -1913,7 +1912,7 @@ def _delete_label_in_batches(session: Session, label: str, batch_size: int, data
     return deleted_count
 
 
-def clear_neo4j_data(auth_data: dict[str, str], labels: Union[str, list[str]], dataset_label: Optional[str] = None) -> None:
+def clear_neo4j_data(auth_data: dict[str, str], labels: str | list[str], dataset_label: str | None = None) -> None:
     """
     Clear all nodes with the specified label(s) from Neo4j.
     Uses batched deletion to prevent connection timeouts on large datasets.
