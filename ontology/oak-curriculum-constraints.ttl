@@ -1251,21 +1251,20 @@ shapes:UnitVariantShape
     sh:message "Every unit variant must include at least one lesson to be teachable." ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as a native constraint: at least one incoming reference via
+  # either includesUnitVariant or hasUnitVariantOption. Equivalent to the
+  # previous NOT EXISTS { ... UNION ... }, without a per-node SPARQL query.
+  sh:property [
+    sh:path [
+      sh:alternativePath (
+        [ sh:inversePath curric:includesUnitVariant ]
+        [ sh:inversePath curric:hasUnitVariantOption ]
+      )
+    ] ;
+    sh:minCount 1 ;
+    sh:name "referenced by a programme" ;
+    sh:description "A unit variant must be referenced by a unit variant inclusion or choice." ;
     sh:message "Unit variant is not used in any programme (not referenced by UnitVariantInclusion or UnitVariantChoice)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:UnitVariant .
-        FILTER NOT EXISTS {
-          {
-            ?inclusion curric:includesUnitVariant $this .
-          } UNION {
-            ?choice curric:hasUnitVariantOption $this .
-          }
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1461,17 +1460,14 @@ shapes:UnitVariantInclusionShape
     """ ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount (was
+  # FILTER NOT EXISTS { ?programme curric:hasUnitVariantInclusion $this }).
+  sh:property [
+    sh:path [ sh:inversePath curric:hasUnitVariantInclusion ] ;
+    sh:minCount 1 ;
+    sh:name "used by a programme" ;
+    sh:description "A unit variant inclusion must be used by at least one programme." ;
     sh:message "Unit variant inclusion is not used in any programme (orphaned)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:UnitVariantInclusion .
-        FILTER NOT EXISTS {
-          ?programme curric:hasUnitVariantInclusion $this .
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1546,17 +1542,14 @@ shapes:LessonInclusionShape
     """ ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount (was
+  # FILTER NOT EXISTS { ?unitvariant curric:hasLessonInclusion $this }).
+  sh:property [
+    sh:path [ sh:inversePath curric:hasLessonInclusion ] ;
+    sh:minCount 1 ;
+    sh:name "used by a unit variant" ;
+    sh:description "A lesson inclusion must be used by at least one unit variant." ;
     sh:message "Lesson inclusion is not used in any unit variant (orphaned)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:LessonInclusion .
-        FILTER NOT EXISTS {
-          ?unitvariant curric:hasLessonInclusion $this .
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1576,17 +1569,14 @@ shapes:UnitVariantChoiceShape
     sh:message "A unit variant choice must provide at least two options for selection." ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount (was
+  # FILTER NOT EXISTS { ?inclusion curric:includesUnitVariantChoice $this }).
+  sh:property [
+    sh:path [ sh:inversePath curric:includesUnitVariantChoice ] ;
+    sh:minCount 1 ;
+    sh:name "used by a unit variant inclusion" ;
+    sh:description "A unit variant choice must be used by at least one unit variant inclusion." ;
     sh:message "Unit variant choice is not used in any unit variant inclusion (orphaned)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:UnitVariantChoice .
-        FILTER NOT EXISTS {
-          ?inclusion curric:includesUnitVariantChoice $this .
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1597,17 +1587,14 @@ shapes:ThreadShape
   a sh:NodeShape ;
   sh:targetClass curric:Thread ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount (was
+  # FILTER NOT EXISTS { ?unit curric:includesThread $this }).
+  sh:property [
+    sh:path [ sh:inversePath curric:includesThread ] ;
+    sh:minCount 1 ;
+    sh:name "included by a unit" ;
+    sh:description "A thread must be included by at least one unit." ;
     sh:message "Thread is not included by any unit (orphaned resource)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:Thread .
-        FILTER NOT EXISTS {
-          ?unit curric:includesThread $this
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1628,18 +1615,15 @@ shapes:KeywordShape
     sh:message "Keywords must have exactly one schema:name with a language tag." ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount (was
+  # FILTER NOT EXISTS { ?lesson curric:hasKeyword $this }).
+  sh:property [
+    sh:path [ sh:inversePath curric:hasKeyword ] ;
+    sh:minCount 1 ;
     sh:severity sh:Warning ;
+    sh:name "referenced by a lesson" ;
+    sh:description "A keyword should be referenced by at least one lesson." ;
     sh:message "Keyword is not referenced by any lesson (WARNING - orphaned)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:Keyword .
-        FILTER NOT EXISTS {
-          ?lesson curric:hasKeyword $this .
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1670,18 +1654,15 @@ shapes:MisconceptionShape
     sh:message "Misconceptions must have exactly one correction explaining the correct understanding." ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount (was
+  # FILTER NOT EXISTS { ?lesson curric:hasMisconception $this }).
+  sh:property [
+    sh:path [ sh:inversePath curric:hasMisconception ] ;
+    sh:minCount 1 ;
     sh:severity sh:Warning ;
+    sh:name "referenced by a lesson" ;
+    sh:description "A misconception should be referenced by at least one lesson." ;
     sh:message "Misconception is not referenced by any lesson (WARNING - orphaned)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:Misconception .
-        FILTER NOT EXISTS {
-          ?lesson curric:hasMisconception $this .
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1702,18 +1683,16 @@ shapes:KeyLearningPointShape
     sh:message "Key learning points must have exactly one rdfs:label." ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount: one index pass instead of a
+  # SPARQL query per focus node. Equivalent to the previous
+  # FILTER NOT EXISTS { ?lesson curric:hasKeyLearningPoint $this }.
+  sh:property [
+    sh:path [ sh:inversePath curric:hasKeyLearningPoint ] ;
+    sh:minCount 1 ;
     sh:severity sh:Warning ;
+    sh:name "referenced by a lesson" ;
+    sh:description "A key learning point should be referenced by at least one lesson." ;
     sh:message "Key learning point is not referenced by any lesson (WARNING - orphaned)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:KeyLearningPoint .
-        FILTER NOT EXISTS {
-          ?lesson curric:hasKeyLearningPoint $this .
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1734,18 +1713,15 @@ shapes:PupilLessonOutcomeShape
     sh:message "Pupil lesson outcomes must have exactly one rdfs:label." ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount (was
+  # FILTER NOT EXISTS { ?lesson curric:hasPupilLessonOutcome $this }).
+  sh:property [
+    sh:path [ sh:inversePath curric:hasPupilLessonOutcome ] ;
+    sh:minCount 1 ;
     sh:severity sh:Warning ;
+    sh:name "referenced by a lesson" ;
+    sh:description "A pupil lesson outcome should be referenced by at least one lesson." ;
     sh:message "Pupil lesson outcome is not referenced by any lesson (WARNING - orphaned)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:PupilLessonOutcome .
-        FILTER NOT EXISTS {
-          ?lesson curric:hasPupilLessonOutcome $this .
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1766,18 +1742,15 @@ shapes:PriorKnowledgeRequirementShape
     sh:message "Prior knowledge requirements must have exactly one rdfs:label." ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount (was
+  # FILTER NOT EXISTS { ?unit curric:hasPriorKnowledgeRequirement $this }).
+  sh:property [
+    sh:path [ sh:inversePath curric:hasPriorKnowledgeRequirement ] ;
+    sh:minCount 1 ;
     sh:severity sh:Warning ;
+    sh:name "referenced by a unit" ;
+    sh:description "A prior knowledge requirement should be referenced by at least one unit." ;
     sh:message "Prior knowledge requirement is not referenced by any unit (WARNING - orphaned)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:PriorKnowledgeRequirement .
-        FILTER NOT EXISTS {
-          ?unit curric:hasPriorKnowledgeRequirement $this .
-        }
-      }
-    """ ;
   ] .
 
 # ----------------------------------------------------------------------
@@ -1855,15 +1828,12 @@ shapes:LessonShape
     sh:message "Lessons must have at least one pupil lesson outcome." ;
   ] ;
 
-  sh:sparql [
+  # Orphan check as native inverse-path minCount (was
+  # FILTER NOT EXISTS { ?inclusion curric:includesLesson $this }).
+  sh:property [
+    sh:path [ sh:inversePath curric:includesLesson ] ;
+    sh:minCount 1 ;
+    sh:name "referenced by a lesson inclusion" ;
+    sh:description "A lesson must be referenced by at least one lesson inclusion." ;
     sh:message "Lesson is not referenced by any lesson inclusion (orphaned resource)" ;
-    sh:select """
-      PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
-        $this a curric:Lesson .
-        FILTER NOT EXISTS {
-          ?inclusion curric:includesLesson $this
-        }
-      }
-    """ ;
   ] .
