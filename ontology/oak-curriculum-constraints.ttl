@@ -729,7 +729,7 @@ shapes:StrandShape
     sh:message "When a Strand is covered by more than one Subject, all those Subjects must belong to the same SubjectGroup." ;
     sh:select """
       PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
+      SELECT DISTINCT $this WHERE {
         ?subject1 a curric:Subject ;
                   curric:coversStrand $this ;
                   curric:isSubjectOf ?group1 .
@@ -1212,7 +1212,7 @@ shapes:UnitShape
     sh:message "Unit is not used in any programme (all its unit variants are orphaned)" ;
     sh:select """
       PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
+      SELECT DISTINCT $this WHERE {
         $this curric:hasUnitVariant ?unitvariant .
         FILTER NOT EXISTS {
           {
@@ -1775,7 +1775,7 @@ shapes:UnitVariantSequenceShape
     sh:message "Sequence positions must be unique within a unit variant" ;
     sh:select """
       PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
+      SELECT DISTINCT $this WHERE {
         $this curric:hasLessonInclusion ?a, ?b .
         ?a curric:sequencePosition ?pos .
         ?b curric:sequencePosition ?pos .
@@ -1815,7 +1815,7 @@ shapes:ProgrammeSequenceShape
     sh:message "Sequence positions must be unique within a programme" ;
     sh:select """
       PREFIX curric: <https://w3id.org/uk/oak/curriculum/ontology/>
-      SELECT $this WHERE {
+      SELECT DISTINCT $this WHERE {
         $this curric:hasUnitVariantInclusion ?a, ?b .
         ?a curric:sequencePosition ?pos .
         ?b curric:sequencePosition ?pos .
