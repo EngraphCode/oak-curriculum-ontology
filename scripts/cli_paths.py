@@ -24,10 +24,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 
 # Temp roots are allowed as *containment boundaries* only: this module never
 # creates files there itself, it just permits callers to name paths there,
-# which CI and the merge-script default already rely on (python:S5443).
+# which CI and the merge-script default already rely on.
 _temp_roots = {Path(tempfile.gettempdir()).resolve()}
-if Path("/tmp").exists():
-    _temp_roots.add(Path("/tmp").resolve())
+_system_tmp = Path("/tmp")  # NOSONAR -- boundary constant; no file is created here
+if _system_tmp.exists():
+    _temp_roots.add(_system_tmp.resolve())
 
 ALLOWED_ROOTS: tuple[Path, ...] = (REPO_ROOT, *sorted(_temp_roots))
 
