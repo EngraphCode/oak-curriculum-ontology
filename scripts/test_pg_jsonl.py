@@ -41,6 +41,8 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
+from cli_paths import contained_path
+
 
 def load_nodes(path: Path) -> tuple[dict[str, list[str]], int]:
     """Return (id -> labels, total_count) from nodes.jsonl."""
@@ -233,7 +235,11 @@ def main() -> None:
         print(f"Usage: {sys.argv[0]} <output_dir>", file=sys.stderr)
         sys.exit(1)
 
-    output_dir = Path(sys.argv[1])
+    try:
+        output_dir = contained_path(sys.argv[1])
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
 
     if not output_dir.is_dir():
         print(f"Error: {output_dir} is not a directory", file=sys.stderr)

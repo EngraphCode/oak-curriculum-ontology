@@ -21,6 +21,8 @@ from urllib.parse import urlparse
 
 from rdflib import Graph, URIRef
 
+from cli_paths import contained_path, contained_path_arg
+
 logger = logging.getLogger(__name__)
 
 # OWL imports predicate (note: OWL uses http://, not https://)
@@ -231,7 +233,7 @@ class TTLMerger:
     def merge(self, root_paths: list[str]) -> None:
         """Merge TTL files from the given root paths."""
         for path_str in root_paths:
-            path = self.repo_root / path_str
+            path = contained_path(self.repo_root / path_str)
             if path.is_dir():
                 for ttl_file in sorted(path.rglob("*.ttl")):
                     self.parse_with_imports(ttl_file)
@@ -258,13 +260,13 @@ def main() -> int:
     )
     parser.add_argument(
         "-o", "--output",
-        type=Path,
+        type=contained_path_arg,
         default=DEFAULT_OUTPUT_FILE,
         help=f"Output file path (default: {DEFAULT_OUTPUT_FILE})",
     )
     parser.add_argument(
         "-r", "--repo-root",
-        type=Path,
+        type=contained_path_arg,
         default=None,
         help="Repository root directory (default: parent of scripts/)",
     )

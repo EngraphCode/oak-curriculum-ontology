@@ -13,6 +13,8 @@ import json
 import sys
 from pathlib import Path
 
+from cli_paths import contained_path
+
 
 def validate_file(
     path: Path, required_fields: list[str]
@@ -46,7 +48,12 @@ def main() -> None:
         print(f"Usage: {sys.argv[0]} <output_dir>", file=sys.stderr)
         sys.exit(1)
 
-    output_dir = Path(sys.argv[1])
+    try:
+        output_dir = contained_path(sys.argv[1])
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
+
     all_ok = True
 
     checks = [
