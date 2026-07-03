@@ -9,9 +9,13 @@ reading or writing arbitrary filesystem locations.
 Allowed roots:
 
 - the repository itself (inputs and distribution outputs live here)
-- the system temporary directories (merge intermediates default to
-  ``tempfile.gettempdir()``, and CI stages generated files in ``/tmp``;
-  on macOS these differ, so both are allowed where present)
+- well-known system temp locations (``/tmp``, ``/var/tmp``, and macOS's
+  ``/var/folders``; merge intermediates and CI staging live there)
+
+The platform temp dir reported by ``tempfile.gettempdir()`` is deliberately
+not trusted on POSIX: it honours TMPDIR/TMP/TEMP, so exporting e.g.
+``TMPDIR=/`` would widen the boundary to the whole filesystem. It is used
+only on platforms where none of the known locations exist (e.g. Windows).
 """
 
 from __future__ import annotations
@@ -22,15 +26,27 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-# Temp roots are allowed as *containment boundaries* only: this module never
-# creates files there itself, it just permits callers to name paths there,
-# which CI and the merge-script default already rely on.
-_temp_roots = {Path(tempfile.gettempdir()).resolve()}
-_system_tmp = Path("/tmp")  # NOSONAR -- boundary constant; no file is created here
-if _system_tmp.exists():
-    _temp_roots.add(_system_tmp.resolve())
+# Containment boundaries only: this module never creates files here itself,
+# it just permits callers to name paths under these roots.
+_KNOWN_TEMP_ANCHORS = ("/tmp", "/var/tmp", "/var/folders")  # NOSONAR
 
-ALLOWED_ROOTS: tuple[Path, ...] = (REPO_ROOT, *sorted(_temp_roots))
+
+def _trusted_temp_roots() -> tuple[Path, ...]:
+    """Return system temp roots that are safe containment boundaries.
+
+    Only the well-known POSIX temp locations are trusted, because
+    ``tempfile.gettempdir()`` can be pointed anywhere via TMPDIR/TMP/TEMP.
+    Where none of them exist (e.g. Windows), the platform default is the
+    only sensible boundary and is used as-is.
+    """
+    candidates = (Path(anchor) for anchor in _KNOWN_TEMP_ANCHORS)
+    anchors = sorted(path.resolve() for path in candidates if path.exists())
+    if anchors:
+        return tuple(anchors)
+    return (Path(tempfile.gettempdir()).resolve(),)
+
+
+ALLOWED_ROOTS: tuple[Path, ...] = (REPO_ROOT, *_trusted_temp_roots())
 
 
 def contained_path(raw: str | Path) -> Path:

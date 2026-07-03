@@ -1,6 +1,7 @@
 """Tests for shared CLI path containment validation (scripts/cli_paths.py)."""
 
 import argparse
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -26,6 +27,21 @@ def test_accepts_literal_tmp_path() -> None:
     assert resolved == SYSTEM_TMP.resolve() / "combined-data.nt"
 
 
+@pytest.mark.skipif(not SYSTEM_TMP.exists(), reason="no /tmp on this platform")
+def test_temp_roots_not_widened_by_tmpdir_env(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Exporting TMPDIR must not add arbitrary directories to the boundary."""
+    monkeypatch.setenv("TMPDIR", "/")
+    monkeypatch.setattr(tempfile, "tempdir", None)  # defeat gettempdir() caching
+    roots = cli_paths._trusted_temp_roots()
+    known = {
+        Path(anchor).resolve()
+        for anchor in cli_paths._KNOWN_TEMP_ANCHORS
+        if Path(anchor).exists()
+    }
+    assert Path("/") not in roots
+    assert set(roots) <= known
+
+
 def test_normalises_dot_dot_that_stays_inside_repo() -> None:
     raw = str(cli_paths.REPO_ROOT / "scripts" / ".." / "README.md")
     assert cli_paths.contained_path(raw) == cli_paths.REPO_ROOT / "README.md"
@@ -43,15 +59,12 @@ def test_rejects_home_directory_path() -> None:
         cli_paths.contained_path(raw)
 
 
-def test_rejects_symlink_pointing_outside_allowed_roots() -> None:
-    link = cli_paths.REPO_ROOT / "test-escape-symlink"
+def test_rejects_symlink_pointing_outside_allowed_roots(tmp_path: Path) -> None:
+    link = tmp_path / "escape-symlink"
     link.symlink_to(Path.home() / "nonexistent-target")
     link_str = str(link)
-    try:
-        with pytest.raises(ValueError, match="outside"):
-            cli_paths.contained_path(link_str)
-    finally:
-        link.unlink()
+    with pytest.raises(ValueError, match="outside"):
+        cli_paths.contained_path(link_str)
 
 
 def test_accepts_path_object_input() -> None:
