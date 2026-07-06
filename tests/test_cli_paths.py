@@ -17,10 +17,14 @@ def test_accepts_path_inside_repo() -> None:
 
 
 def test_accepts_path_inside_system_temp_dir() -> None:
+    # Not pytest's tmp_path: that derives from gettempdir(), which TMPDIR can
+    # point outside the trusted anchors. Build the fixture under a trusted
+    # root so the test exercises the intended boundary deterministically.
     root = cli_paths._trusted_temp_roots()[0]
-    with tempfile.TemporaryDirectory(dir=root) as d:
-        target = Path(d) / "combined-data.nt"
-        assert cli_paths.contained_path(target) == target.resolve()
+    with tempfile.TemporaryDirectory(dir=root) as tmp:
+        target = Path(tmp) / "combined-data.nt"
+        assert cli_paths.contained_path(str(target)) == target.resolve()
+
 
 @pytest.mark.skipif(not SYSTEM_TMP.exists(), reason="no /tmp on this platform")
 def test_accepts_literal_tmp_path() -> None:
@@ -60,12 +64,16 @@ def test_rejects_home_directory_path() -> None:
         cli_paths.contained_path(raw)
 
 
-def test_rejects_symlink_pointing_outside_allowed_roots(tmp_path: Path) -> None:
-    link = tmp_path / "escape-symlink"
-    link.symlink_to(Path.home() / "nonexistent-target")
-    link_str = str(link)
-    with pytest.raises(ValueError, match="outside"):
-        cli_paths.contained_path(link_str)
+def test_rejects_symlink_pointing_outside_allowed_roots() -> None:
+    # The link must sit INSIDE an allowed root so that rejection can only
+    # come from resolving the symlink, not from the link's own location.
+    root = cli_paths._trusted_temp_roots()[0]
+    with tempfile.TemporaryDirectory(dir=root) as tmp:
+        link = Path(tmp) / "escape-symlink"
+        link.symlink_to(Path.home() / "nonexistent-target")
+        link_str = str(link)
+        with pytest.raises(ValueError, match="outside"):
+            cli_paths.contained_path(link_str)
 
 
 def test_accepts_path_object_input() -> None:
