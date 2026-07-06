@@ -16,10 +16,11 @@ def test_accepts_path_inside_repo() -> None:
     assert cli_paths.contained_path(str(inside)) == inside
 
 
-def test_accepts_path_inside_system_temp_dir(tmp_path: Path) -> None:
-    target = tmp_path / "combined-data.nt"
-    assert cli_paths.contained_path(str(target)) == target.resolve()
-
+def test_accepts_path_inside_system_temp_dir() -> None:
+    root = cli_paths._trusted_temp_roots()[0]
+    with tempfile.TemporaryDirectory(dir=root) as d:
+        target = Path(d) / "combined-data.nt"
+        assert cli_paths.contained_path(target) == target.resolve()
 
 @pytest.mark.skipif(not SYSTEM_TMP.exists(), reason="no /tmp on this platform")
 def test_accepts_literal_tmp_path() -> None:
