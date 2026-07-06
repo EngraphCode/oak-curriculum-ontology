@@ -15,3 +15,33 @@ repos:
     hooks:
       - id: commitizen
         stages: [commit-msg]
+
+  # Python checks run via uv so hook versions always match uv.lock and the
+  # CI "python" job in .github/workflows/lint.yml — keep the two in step.
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff check
+        entry: uv run --extra dev --extra export ruff check scripts/ tests/ conftest.py
+        language: system
+        types: [python]
+        pass_filenames: false
+
+      - id: pytest
+        name: pytest
+        entry: uv run --extra dev --extra export pytest
+        language: system
+        types: [python]
+        pass_filenames: false
+
+      - id: mypy-strict
+        name: mypy --strict (compliant scripts)
+        entry: >-
+          uv run --extra dev --extra export mypy
+          scripts/check_readme_examples.py
+          scripts/check_version_consistency.py
+          scripts/merge_ttls_with_imports.py
+          scripts/export_to_neo4j.py
+        language: system
+        types: [python]
+        pass_filenames: false
