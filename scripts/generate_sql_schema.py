@@ -34,7 +34,7 @@ try:
 except ImportError:
     sys.exit("rdflib is required: pip install rdflib")
 
-from cli_paths import REPO_ROOT, contained_path_arg
+from cli_paths import REPO_ROOT, contained_path, contained_path_arg
 
 log = logging.getLogger(__name__)
 
@@ -647,8 +647,9 @@ def main() -> None:
     ddl = generate_ddl(args.ontology, args.dialect)
 
     if args.output:
-        args.output.write_text(ddl, encoding="utf-8")
-        log.info("Schema written to %s", args.output)
+        safe_output = contained_path(args.output)
+        safe_output.write_text(ddl, encoding="utf-8")
+        log.info("Schema written to %s", safe_output)
     else:
         print(ddl)
 

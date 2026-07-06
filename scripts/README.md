@@ -339,6 +339,19 @@ uv sync
 uv sync --extra dev
 ```
 
+### Pre-commit hooks
+
+Install the git hooks once per clone so the checks CI runs (markdown lint,
+ruff, pytest, strict mypy, commit-message format) also run locally on each
+commit:
+
+```bash
+uv run --extra dev pre-commit install --hook-type pre-commit --hook-type commit-msg
+```
+
+The `--hook-type commit-msg` part is what enforces the conventional-commit
+message format locally; without it only the file checks run.
+
 ---
 
 ## Troubleshooting
