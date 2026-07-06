@@ -22,6 +22,8 @@ from rdflib.collection import Collection
 from rdflib_neo4j import Neo4jStoreConfig, Neo4jStore, HANDLE_VOCAB_URI_STRATEGY
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
+
+from cli_paths import contained_path_arg
 from neo4j import GraphDatabase, Driver, Session
 from neo4j.exceptions import ServiceUnavailable, TransientError, AuthError, CypherSyntaxError
 from tqdm import tqdm
@@ -1998,8 +2000,8 @@ Examples:
   python scripts/export_to_neo4j.py --config scripts/export_to_neo4j_config.json --verbose
         """
     )
-    parser.add_argument('--config', type=str, required=True,
-                        help='Path to configuration file (required)')
+    parser.add_argument('--config', type=contained_path_arg, required=True,
+                        help='Path to configuration file (required; must be inside the repository or temp dir)')
     parser.add_argument('--clear', action='store_true',
                         help='Clear data from Neo4j database before import (scope defined by config)')
     parser.add_argument('--dry-run', action='store_true',

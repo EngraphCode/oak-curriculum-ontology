@@ -29,6 +29,8 @@ from pathlib import Path
 from rdflib import OWL, RDF, RDFS, XSD, BNode, Graph, Literal, URIRef
 from rdflib.namespace import SKOS
 
+from cli_paths import contained_path
+
 # ---------------------------------------------------------------------------
 # External vocabulary classes treated as proper data nodes
 #
@@ -285,8 +287,12 @@ def main() -> None:
         print(f"Usage: {sys.argv[0]} <input.ttl> <output_dir>", file=sys.stderr)
         sys.exit(1)
 
-    input_ttl = Path(sys.argv[1]).resolve()
-    output_dir = Path(sys.argv[2]).resolve()
+    try:
+        input_ttl = contained_path(sys.argv[1])
+        output_dir = contained_path(sys.argv[2])
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
 
     if not input_ttl.exists():
         print(f"Error: {input_ttl} not found", file=sys.stderr)

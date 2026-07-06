@@ -34,11 +34,11 @@ try:
 except ImportError:
     sys.exit("rdflib is required: pip install rdflib")
 
+from cli_paths import REPO_ROOT, contained_path_arg
+
 log = logging.getLogger(__name__)
 
-DEFAULT_ONTOLOGY = (
-    Path(__file__).resolve().parent.parent / "ontology" / "oak-curriculum-ontology.ttl"
-)
+DEFAULT_ONTOLOGY = REPO_ROOT / "ontology" / "oak-curriculum-ontology.ttl"
 
 CURRIC_NS = "https://w3id.org/uk/oak/curriculum/ontology/"
 SKOS_NS = "http://www.w3.org/2004/02/skos/core#"
@@ -631,16 +631,16 @@ def main() -> None:
         description="Generate SQL DDL from the Oak Curriculum Ontology"
     )
     parser.add_argument(
-        "--ontology", type=Path, default=DEFAULT_ONTOLOGY,
-        help="Path to ontology TTL file",
+        "--ontology", type=contained_path_arg, default=DEFAULT_ONTOLOGY,
+        help="Path to ontology TTL file (must be inside the repository or temp dir)",
     )
     parser.add_argument(
         "--dialect", choices=["postgres", "sqlite"], default="postgres",
         help="SQL dialect (default: postgres)",
     )
     parser.add_argument(
-        "-o", "--output", type=Path,
-        help="Output file (default: stdout)",
+        "-o", "--output", type=contained_path_arg,
+        help="Output file (default: stdout; must be inside the repository or temp dir)",
     )
     args = parser.parse_args()
 
